@@ -15,7 +15,7 @@ app.use('/posts', postRoutes);
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.S_PORT || 5000;
 const CONNECTION_URL = process.env.MOONGO_URI;
 
 mongoose.connect(
