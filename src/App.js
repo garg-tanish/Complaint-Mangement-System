@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PostDetails from "./components/Posts/PostDetails/PostDetails.js";
 import Auth from "./components/Auth/Auth.js";
 import AdminAuth from "./components/Auth/AdminAuth.js";
-import NotFoundPage from "./components/NotFoundPage/NotFoundPage.js";
+// import NotFoundPage from "./components/NotFoundPage/NotFoundPage.js";
 
 const App = () => {
   const [currentId, setCurrentId] = useState(0);
