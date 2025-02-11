@@ -23,7 +23,7 @@ import useStyles from "./styles";
 import Input from "./Input";
 import dotenv from 'dotenv';
 
-dotenv.config();
+dotenv.config({ path: '.../.env' });
 let initialState = {
   firstName: "",
   lastName: "",

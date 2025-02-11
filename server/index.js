@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 import postRoutes from './routes/post.js';
 import userRouter from "./routes/user.js";
 import dotenv from 'dotenv';
-dotenv.config();
+dotenv.config({ path: '../.env' });
 
 const app = express();
 
