@@ -1,4 +1,6 @@
+import React from "react";
 import useStyles from "./styles";
+import FileBase from "react-file-base64";
 import {
   TextField,
   Button,
@@ -8,16 +10,20 @@ import {
   Container,
   Grow,
 } from "@material-ui/core";
-import { useState } from "react";
-import FileBase from "react-file-base64";
+
 import { useDispatch } from "react-redux";
-import { createPost } from "../../actions/post";
 import { useHistory } from "react-router-dom";
+import { createPost } from "../../actions/post";
 
 const Form = ({ setCurrentId }) => {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+
   const classes = useStyles();
-  const [postData, setPostData] = useState({
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("profile"));
+
+  const [isPending, setIsPending] = React.useState(false);
+  const [postData, setPostData] = React.useState({
     creator: user?.result.name,
     email: user?.result.email,
     title: "",
@@ -26,15 +32,11 @@ const Form = ({ setCurrentId }) => {
     selectedFile: "",
     address: "",
   });
-  const dispatch = useDispatch();
-  const [isPending, setIsPending] = useState(false);
-  const history = useHistory();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setIsPending(true);
-
-    await dispatch(createPost(postData));
+    dispatch(createPost(postData));
     clear();
     history.push("/dashboard");
   };

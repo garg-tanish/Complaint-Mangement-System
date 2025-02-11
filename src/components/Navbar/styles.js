@@ -6,9 +6,9 @@ export default makeStyles(() => ({
     flexDirection: 'column',
   },
   dashboard: {
-      position: 'relative',
-      left: '650px',
-      padding: '10px',
+    position: 'relative',
+    left: '650px',
+    padding: '10px',
   },
   link: {
     paddingLeft: '20px',

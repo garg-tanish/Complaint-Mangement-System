@@ -1,11 +1,11 @@
-import { Grid, Grow, Container } from "@material-ui/core";
-import CardItem from "./Card/Card.js";
 import useStyles from "./styles";
-import { useState } from "react";
+import CardItem from "./Card/Card.js";
+
+import { Grid, Grow, Container } from "@material-ui/core";
 
 const Home = () => {
   const classes = useStyles();
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   return (
     <Grow in>

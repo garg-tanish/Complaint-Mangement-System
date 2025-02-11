@@ -1,4 +1,18 @@
+import React from "react";
+import moment from "moment";
 import useStyles from "./styles";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import DeleteIcon from "@material-ui/icons/Delete";
+import background from "../../../images/background.png";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import TrendingUpIcon from "@material-ui/icons/TrendingUp";
+import LowPriorityIcon from "@material-ui/icons/LowPriority";
+import PriorityHighIcon from "@material-ui/icons/PriorityHigh";
+import NotInterestedIcon from "@material-ui/icons/NotInterested";
+import SettingsEthernetIcon from "@material-ui/icons/SettingsEthernet";
 import {
   Card,
   CardActions,
@@ -6,38 +20,26 @@ import {
   Button,
   Typography,
 } from "@material-ui/core/";
-import DeleteIcon from "@material-ui/icons/Delete";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import { withStyles } from "@material-ui/core/styles";
-import moment from "moment";
-import { useDispatch } from "react-redux";
-import { deletePost } from "../../../actions/post";
-import background from "../../../images/background.png";
-import { Link } from "react-router-dom";
-import { useState } from "react";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import LowPriorityIcon from "@material-ui/icons/LowPriority";
-import SettingsEthernetIcon from "@material-ui/icons/SettingsEthernet";
-import PriorityHighIcon from "@material-ui/icons/PriorityHigh";
-import TrendingUpIcon from "@material-ui/icons/TrendingUp";
-import NotInterestedIcon from "@material-ui/icons/NotInterested";
-import { updatePost } from "../../../actions/post";
 
-const Post = ({ post, setCurrentId }) => {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
-  const dispatch = useDispatch();
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { withStyles } from "@material-ui/core/styles";
+import { deletePost, updatePost } from "../../../actions/post";
+
+const Post = ({ post }) => {
   const classes = useStyles();
-  const [priority, setPriority] = useState(post.priority);
-  const [state, setState] = useState(post.state);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [stateMenu, setStateMenu] = useState(null);
-  const [postData, setPostData] = useState({
+  const dispatch = useDispatch();
+
+  const [priority, setPriority] = React.useState(post.priority);
+  const [state, setState] = React.useState(post.state);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [stateMenu, setStateMenu] = React.useState(null);
+  const [postData, setPostData] = React.useState({
     priority: post.priority,
     state: post.state,
   });
+
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -116,7 +118,7 @@ const Post = ({ post, setCurrentId }) => {
         </Typography>
       </div>
       <div className={classes.overlay2}>
-        { (post.email === user.result.email && post.state === 'Pending') && <Button
+        {(post.email === user.result.email && post.state === 'Pending') && <Button
           color="secondary"
           size="small"
           onClick={() => dispatch(deletePost(post._id))}
@@ -138,20 +140,20 @@ const Post = ({ post, setCurrentId }) => {
         {post.title}
       </Typography>
       <CardActions className={classes.cardActions}>
-        { (user.result.isAdmin) &&
+        {(user.result.isAdmin) &&
           <Button
-          aria-controls="customized-menu"
-          aria-haspopup="true"
-          variant="contained"
-          color="primary"
-          onClick={handleClick}
-        >
-          {!priority
-            ? "Low Priority"
-            : priority === 1
-            ? "Medium Priority"
-            : "High Priority"}
-        </Button>}
+            aria-controls="customized-menu"
+            aria-haspopup="true"
+            variant="contained"
+            color="primary"
+            onClick={handleClick}
+          >
+            {!priority
+              ? "Low Priority"
+              : priority === 1
+                ? "Medium Priority"
+                : "High Priority"}
+          </Button>}
 
         <StyledMenu
           id="customized-menu"
@@ -185,7 +187,7 @@ const Post = ({ post, setCurrentId }) => {
           aria-haspopup="true"
           variant="contained"
           color="secondary"
-          disabled={ !user.result.isAdmin }
+          disabled={!user.result.isAdmin}
           onClick={handleStateClick}
         >
           {state}

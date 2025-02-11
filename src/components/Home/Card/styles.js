@@ -53,9 +53,9 @@ export default makeStyles({
   },
   AddIcon: {
     backgroundColor: '#ff8c00',
-      color: 'white',
-      '&:hover': {
-        backgroundColor: 'rgb(255,239,0)',
+    color: 'white',
+    '&:hover': {
+      backgroundColor: 'rgb(255,239,0)',
     },
   }
 });

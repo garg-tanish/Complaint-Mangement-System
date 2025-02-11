@@ -1,4 +1,6 @@
 import useStyles from "./styles";
+import background from "../../../images/background2.png";
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import {
   Card,
   CardActions,
@@ -6,9 +8,8 @@ import {
   Typography,
   IconButton,
 } from "@material-ui/core/";
-import background from "../../../images/background2.png";
+
 import { Link } from "react-router-dom";
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 const CardItem = ({ title, link }) => {
   const classes = useStyles();
@@ -26,10 +27,10 @@ const CardItem = ({ title, link }) => {
         <Typography variant="h6">{title}</Typography>
       </div>
       <CardActions className={classes.cardActions}>
-      <Link to={link}>
-      <IconButton aria-label="add complaint" className={classes.AddIcon}>
-          <ArrowForwardIosIcon />
-        </IconButton>
+        <Link to={link}>
+          <IconButton aria-label="add complaint" className={classes.AddIcon}>
+            <ArrowForwardIosIcon />
+          </IconButton>
         </Link>
       </CardActions>
     </Card>

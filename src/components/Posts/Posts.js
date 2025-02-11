@@ -1,18 +1,19 @@
-import { Grid, Typography, Grow, Container } from "@material-ui/core";
-import { useSelector } from "react-redux";
-import { useState } from "react";
 import Post from "./Post/Post";
 import useStyles from "./styles";
+
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Grid, Typography, Grow, Container } from "@material-ui/core";
 
 const Posts = ({ setCurrentId }) => {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const classes = useStyles();
   const posts = useSelector((state) =>
     user.result.isAdmin
       ? state.posts
       : state.posts.filter((post) => post.email === user.result.email)
   );
-  const classes = useStyles();
+
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   return (
     <Grow in>

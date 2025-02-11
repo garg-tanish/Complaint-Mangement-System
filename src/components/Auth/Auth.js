@@ -1,5 +1,9 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
+import Icon from "./Icon";
+import Input from "./Input";
+import dotenv from 'dotenv';
+import useStyles from "./styles";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import {
   Avatar,
   Button,
@@ -12,18 +16,15 @@ import {
   FormControlLabel,
   Switch,
 } from "@material-ui/core";
+
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { GoogleLogin } from "react-google-login";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-
-import Icon from "./Icon";
-import { signin, signup } from "../../actions/auth";
 import { AUTH } from "../../constants/actionTypes";
-import useStyles from "./styles";
-import Input from "./Input";
-import dotenv from 'dotenv';
+import { signin, signup } from "../../actions/auth";
 
 dotenv.config({ path: '.../.env' });
+
 let initialState = {
   firstName: "",
   lastName: "",
@@ -35,14 +36,15 @@ let initialState = {
 
 const SignUp = ({ admin = false }) => {
   initialState.isAdmin = admin;
-  const [form, setForm] = useState(initialState);
-  const [isSignup, setIsSignup] = useState(admin);
-  const [isAdmin, setIsAdmin] = useState(true);
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const classes = useStyles();
 
-  const [showPassword, setShowPassword] = useState(false);
+  const classes = useStyles();
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const [isAdmin, setIsAdmin] = React.useState(true);
+  const [form, setForm] = React.useState(initialState);
+  const [isSignup, setIsSignup] = React.useState(admin);
+  const [showPassword, setShowPassword] = React.useState(false);
   const handleShowPassword = () => setShowPassword(!showPassword);
 
   const switchMode = () => {
