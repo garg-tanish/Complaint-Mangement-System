@@ -1,7 +1,6 @@
 import React from "react";
 import Icon from "./Icon";
 import Input from "./Input";
-import dotenv from 'dotenv';
 import useStyles from "./styles";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import {
@@ -22,8 +21,6 @@ import { useHistory } from "react-router-dom";
 import { GoogleLogin } from "react-google-login";
 import { AUTH } from "../../constants/actionTypes";
 import { signin, signup } from "../../actions/auth";
-
-dotenv.config({ path: '.../.env' });
 
 let initialState = {
   firstName: "",
@@ -179,7 +176,7 @@ const SignUp = ({ admin = false }) => {
                   {!admin && (
                     <>
                       <GoogleLogin
-                        clientId={process.env.GOOGLE_CLIENT_ID}
+                        clientId='976213907832-dvs5fivfblm09vvjqqd67idquijbcs3a.apps.googleusercontent.com'
                         render={(renderProps) => (
                           <Button
                             className={classes.googleButton}

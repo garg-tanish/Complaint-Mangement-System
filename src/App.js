@@ -1,28 +1,28 @@
-import Posts from "./components/Posts/Posts.js";
+import React from "react";
 import Form from "./components/Form/Form.js";
 import Home from "./components/Home/Home.js";
+import Auth from "./components/Auth/Auth.js";
+import Posts from "./components/Posts/Posts.js";
 import Navbar from "./components/Navbar/Navbar.js";
-import React, { useState, useEffect } from "react";
+import AdminAuth from "./components/Auth/AdminAuth.js";
+import PostDetails from "./components/Posts/PostDetails/PostDetails.js";
+
 import { useDispatch } from "react-redux";
 import { getPosts } from "./actions/post";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import PostDetails from "./components/Posts/PostDetails/PostDetails.js";
-import Auth from "./components/Auth/Auth.js";
-import AdminAuth from "./components/Auth/AdminAuth.js";
-// import NotFoundPage from "./components/NotFoundPage/NotFoundPage.js";
 
 const App = () => {
-  const [currentId, setCurrentId] = useState(0);
+  const [currentId, setCurrentId] = React.useState(0);
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));
 
-  useEffect(() => {
+  React.useEffect(() => {
     dispatch(getPosts());
   }, [currentId, dispatch]);
 
   return (
     <Router>
-      <Navbar />
+      {user && <Navbar />}
       <Switch>
 
         {user && (<>
@@ -50,9 +50,6 @@ const App = () => {
         <Route path="*">
           <Auth />
         </Route>
-        {/* <Route path="*">
-          <NotFoundPage />
-        </Route> */}
       </Switch>
     </Router>
   );

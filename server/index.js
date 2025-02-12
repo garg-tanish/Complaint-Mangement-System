@@ -10,10 +10,11 @@ const app = express();
 dotenv.config({ path: '../.env' });
 
 app.use(cors());
-app.use("/user", userRouter);
-app.use('/posts', postRoutes);
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+
+app.use("/user", userRouter);
+app.use('/posts', postRoutes);
 
 const PORT = process.env.S_PORT || 5000;
 const CONNECTION_URL = process.env.MOONGO_URI;

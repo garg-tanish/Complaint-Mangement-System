@@ -7,13 +7,13 @@ import { Grid, Typography, Grow, Container } from "@material-ui/core";
 
 const Posts = ({ setCurrentId }) => {
   const classes = useStyles();
+  const user = JSON.parse(localStorage.getItem("profile"));
+
   const posts = useSelector((state) =>
     user.result.isAdmin
       ? state.posts
       : state.posts.filter((post) => post.email === user.result.email)
   );
-
-  const user = JSON.parse(localStorage.getItem("profile"));
 
   return (
     <Grow in>
