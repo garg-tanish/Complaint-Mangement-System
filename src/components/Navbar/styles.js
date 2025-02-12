@@ -1,28 +1,47 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
   appBar: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
   },
-  dashboard: {
-    position: 'relative',
-    left: '650px',
-    padding: '10px',
-  },
-  link: {
-    paddingLeft: '20px',
-    color: 'white',
-    textDecoration: 'none',
-    fontWeight: 'bold',
+  menuButton: {
+    marginRight: theme.spacing(2),
   },
   title: {
-    marginLeft: '15px',
+    flexGrow: 1,
+    marginLeft: "15px",
+  },
+  dashboard: {
+    display: "flex",
+    gap: "20px",
+    alignItems: "center",
+  },
+  link: {
+    color: "white",
+    textDecoration: "none",
+    fontWeight: "bold",
   },
   logout: {
-    marginLeft: '20px',
+    marginLeft: "20px",
   },
   avatar: {
-    backgroundColor: '#f40057',
-  }
+    backgroundColor: "#f40057",
+  },
+  drawer: {
+    width: 250,
+  },
+  closeButton: {
+    display: "flex",
+    justifyContent: "flex-end",
+    padding: "10px",
+  },
+  moveToTop: {
+    position: "fixed",
+    bottom: "20px",
+    right: "20px",
+    backgroundColor: "#f50057",
+    color: "white",
+    zIndex: 1000,
+  },
 }));
