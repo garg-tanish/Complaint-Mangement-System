@@ -95,8 +95,8 @@ const Post = ({ post }) => {
     handleClose();
   };
 
-  const handleState = async (status) => {
-    await setPostData({ ...postData, state: status });
+  const handleState = (status) => {
+    setPostData({ ...postData, state: status });
     dispatch(updatePost(post._id, postData));
     setState(status);
     handleStateClose();
@@ -128,7 +128,7 @@ const Post = ({ post }) => {
       </div>
       <div className={classes.details}>
         <Typography variant="body2" color="textSecondary" component="h2">
-          {post.tags.map((tag) => `#${tag} `)}
+          {`#${post._id} `}
         </Typography>
       </div>
       <Typography
