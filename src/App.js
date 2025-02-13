@@ -12,8 +12,10 @@ import { getPosts } from "./actions/post";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const App = () => {
-  const [currentId, setCurrentId] = React.useState(0);
   const dispatch = useDispatch();
+
+  const [currentId, setCurrentId] = React.useState(0);
+
   const user = JSON.parse(localStorage.getItem("profile"));
 
   React.useEffect(() => {
@@ -25,27 +27,27 @@ const App = () => {
       {user && <Navbar />}
       <Switch>
 
-        {user && (<>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route exact path="/create">
-            <Form setCurrentId={setCurrentId} />
-          </Route>
-          <Route exact path="/dashboard">
-            <Posts setCurrentId={setCurrentId} />
-          </Route>
-          <Route exact path="/details/:id">
-            <PostDetails />
-          </Route>
-
-          {user.result.isAdmin && (
-            <Route exact path="/auth/admin">
-              <AdminAuth />
+        {user && (
+          <>
+            <Route exact path="/">
+              <Home />
             </Route>
-          )}
-        </>)
-        }
+            <Route exact path="/create">
+              <Form setCurrentId={setCurrentId} />
+            </Route>
+            <Route exact path="/dashboard">
+              <Posts setCurrentId={setCurrentId} />
+            </Route>
+            <Route exact path="/details/:id">
+              <PostDetails />
+            </Route>
+            {user.result.isAdmin && (
+              <Route exact path="/auth/admin">
+                <AdminAuth />
+              </Route>
+            )}
+          </>
+        )}
 
         <Route path="*">
           <Auth />

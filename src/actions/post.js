@@ -1,6 +1,6 @@
 import toast from 'react-hot-toast';
 import * as api from '../api/index.js';
-import { FETCH_ALL, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
+import { FETCH_ALL, CREATE, UPDATE, DELETE, LIKE } from '../redux/actions/actionTypes.js';
 
 export const getPosts = () => async (dispatch) => {
   try {
