@@ -10,7 +10,7 @@ const Home = () => {
   return (
     <Grow in>
       <Container>
-        <Grid container justify="center" alignItems="stretch">
+        <Grid container justifyContent="center" alignItems="stretch">
           <Grid item xs={12} sm={7}>
             <Grid
               className={classes.container}

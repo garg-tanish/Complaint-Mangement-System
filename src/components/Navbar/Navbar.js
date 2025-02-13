@@ -1,7 +1,7 @@
 import React from 'react';
 import decode from 'jwt-decode';
 import useStyles from "./styles";
-import * as actionType from '../../constants/actionTypes';
+import * as actionType from '../../redux/actions/actionTypes';
 import {
   AppBar,
   Toolbar,

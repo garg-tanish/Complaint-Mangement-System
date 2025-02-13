@@ -15,10 +15,10 @@ const PostDetails = () => {
   return (
     <Grow in>
       <Container>
-        <Grid container justify="center" alignItems="stretch">
-          <Grid item xs={12} sm={7}>
+        <Grid container justifyContent="center" alignItems="stretch">
+          <Grid item xs={12} sm={8}>
             {posts && (
-              <Grid item lg={12} sm={7}>
+              <Grid item lg={12} sm={8}>
                 <Typography variant="h3" color="secondary" className={classes.title}>{post.title}</Typography>
                 <Typography variant="h6" color="primary" className={classes.creator}>{post.creator}</Typography>
                 <Typography variant="body2" className={classes.createdAt}>

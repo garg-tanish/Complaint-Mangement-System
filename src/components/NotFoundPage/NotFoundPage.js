@@ -16,7 +16,7 @@ const NotFoundPage = () => {
   return (
     <Grow in>
       <Container>
-        <Grid container justify="center" alignItems="stretch">
+        <Grid container justifyContent="center" alignItems="stretch">
           <Grid item xs={12} sm={4}>
             <Container className={classes.notFound}>
               <Typography variant="h2">Sorry</Typography>

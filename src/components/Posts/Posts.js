@@ -9,17 +9,18 @@ const Posts = ({ setCurrentId }) => {
   const classes = useStyles();
   const user = JSON.parse(localStorage.getItem("profile"));
 
-  const posts = useSelector((state) =>
-    user.result.isAdmin
-      ? state.posts
-      : state.posts.filter((post) => post.email === user.result.email)
+  const posts = useSelector((state) => {
+    return user?.result?.isAdmin
+      ? state?.postReducer || [] // Ensure it's an array
+      : (state?.postReducer || []).filter((post) => post.email === user?.result?.email)
+  }
   );
 
   return (
     <Grow in>
       <Container>
-        <Grid container justify="center" alignItems="stretch">
-          <Grid item xs={12} sm={7}>
+        <Grid container justifyContent="center" alignItems="stretch">
+          <Grid item xs={12} sm={8}>
             {!posts.length ? (
               <Grid item xs={12} sm={4}>
                 <Container className={classes.notFound}>

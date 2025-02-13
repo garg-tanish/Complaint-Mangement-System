@@ -58,7 +58,7 @@ const Form = ({ setCurrentId }) => {
   return (
     <Grow in>
       <Container>
-        <Grid container justify="center" alignItems="stretch">
+        <Grid container justifyContent="center" alignItems="stretch">
           <Grid item xs={12} sm={4}>
             <Paper className={classes.paper}>
               <form

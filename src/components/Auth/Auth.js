@@ -19,7 +19,7 @@ import {
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { GoogleLogin } from "react-google-login";
-import { AUTH } from "../../constants/actionTypes";
+import { AUTH } from "../../redux/actions/actionTypes";
 import { signin, signup } from "../../actions/auth";
 
 let initialState = {
@@ -88,8 +88,8 @@ const SignUp = ({ admin = false }) => {
   return (
     <Grow in>
       <Container>
-        <Grid container justify="center" alignItems="stretch">
-          <Grid item xs={12} sm={4}>
+        <Grid container justifyContent="center" alignItems="center">
+          <Grid item xs={12} sm={8}>
             <Container component="main" maxWidth="xs">
               <Paper className={classes.paper} elevation={3}>
                 <Avatar className={classes.avatar}>
@@ -176,7 +176,7 @@ const SignUp = ({ admin = false }) => {
                   {!admin && (
                     <>
                       <GoogleLogin
-                        clientId='976213907832-dvs5fivfblm09vvjqqd67idquijbcs3a.apps.googleusercontent.com'
+                        clientId='50161686094-c0803lbaoes45ce6l51ae9p5ees3sgfh.apps.googleusercontent.com'
                         render={(renderProps) => (
                           <Button
                             className={classes.googleButton}
@@ -194,7 +194,7 @@ const SignUp = ({ admin = false }) => {
                         onFailure={googleError}
                         cookiePolicy="single_host_origin"
                       />
-                      <Grid container justify="flex-end">
+                      <Grid container justifyContent="flex-end">
                         <Grid item>
                           <Button onClick={switchMode}>
                             {isSignup

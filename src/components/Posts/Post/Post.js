@@ -123,7 +123,7 @@ const Post = ({ post }) => {
           size="small"
           onClick={() => dispatch(deletePost(post._id))}
         >
-          <DeleteIcon fontSize="default" />
+          <DeleteIcon fontSize="medium" />
         </Button>}
       </div>
       <div className={classes.details}>
