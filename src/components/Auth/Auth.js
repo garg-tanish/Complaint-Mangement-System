@@ -2,6 +2,7 @@ import React from "react";
 import Icon from "./Icon";
 import Input from "./Input";
 import useStyles from "./styles";
+import toast from 'react-hot-toast';
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import {
   Avatar,
@@ -66,16 +67,15 @@ const SignUp = ({ admin = false }) => {
 
     try {
       dispatch({ type: AUTH, data: { result, token } });
-
       history.push("/");
       window.location.reload();
     } catch (error) {
-      console.log(error);
+      toast.error(error)
     }
   };
 
   const googleError = () =>
-    alert("Google Sign In was unsuccessful. Try again later");
+    toast.error("Google SignIn was unsuccessful. Try again later");
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -89,7 +89,7 @@ const SignUp = ({ admin = false }) => {
     <Grow in>
       <Container>
         <Grid container justifyContent="center" alignItems="center">
-          <Grid item xs={12} sm={8}>
+          <Grid>
             <Container component="main" maxWidth="xs">
               <Paper className={classes.paper} elevation={3}>
                 <Avatar className={classes.avatar}>
@@ -107,13 +107,11 @@ const SignUp = ({ admin = false }) => {
                           label="First Name"
                           handleChange={handleChange}
                           autoFocus
-                          half
                         />
                         <Input
                           name="lastName"
                           label="Last Name"
                           handleChange={handleChange}
-                          half
                         />
                       </>
                     )}
@@ -194,7 +192,7 @@ const SignUp = ({ admin = false }) => {
                         onFailure={googleError}
                         cookiePolicy="single_host_origin"
                       />
-                      <Grid container justifyContent="flex-end">
+                      <Grid container justifyContent="center">
                         <Grid item>
                           <Button onClick={switchMode}>
                             {isSignup
