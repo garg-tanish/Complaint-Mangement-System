@@ -1,6 +1,6 @@
 import crypto from 'crypto'
 import nodemailer from 'nodemailer'
-// import OtpModel from '../models/user'
+// import otpModel from '../models/otpModel'
 
 export const sendOtp = async (request, response) => {
 
@@ -28,7 +28,7 @@ export const sendOtp = async (request, response) => {
 
     const payload = { email, otp, is_used: "false" }
 
-    // const otpCol = new OtpModel(payload)
+    // const otpCol = new otpModel(payload)
     // await otpCol.save()
 
     return response.status(201).json({

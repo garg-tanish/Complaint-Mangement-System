@@ -15,4 +15,7 @@ export const createPost = (newPost) => API.post('/posts', newPost);
 export const likePost = (id) => API.patch(`/posts/${id}/likePost`);
 export const signIn = (formData) => API.post('/user/signin', formData);
 export const signUp = (formData) => API.post('/user/signup', formData);
+export const verifyOtp = (formData) => API.post('/verify-otp', formData);
+export const sendOtp = (formData) => API.post('/email/sendOtp', formData);
+export const SendEmail = (formData) => API.post('/email/sendEmail', formData);
 export const updatePost = (id, updatedPost) => API.patch(`/posts/${id}`, updatedPost);
