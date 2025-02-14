@@ -13,6 +13,7 @@ import LowPriorityIcon from "@material-ui/icons/LowPriority";
 import PriorityHighIcon from "@material-ui/icons/PriorityHigh";
 import NotInterestedIcon from "@material-ui/icons/NotInterested";
 import SettingsEthernetIcon from "@material-ui/icons/SettingsEthernet";
+
 import {
   Card,
   CardActions,
@@ -20,7 +21,6 @@ import {
   Button,
   Typography,
 } from "@material-ui/core/";
-
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
@@ -116,44 +116,48 @@ const Post = ({ post }) => {
         <Typography variant="body2">
           {moment(post.createAt).fromNow()}
         </Typography>
-      </div>
-      <div className={classes.overlay2}>
-        {(post.email === user.result.email && post.state === 'Pending') && <Button
-          color="secondary"
-          size="small"
-          onClick={() => dispatch(deletePost(post._id))}
-        >
-          <DeleteIcon fontSize="medium" />
-        </Button>}
-      </div>
-      <div className={classes.details}>
-        <Typography variant="body2" color="textSecondary" component="h2">
+        <Typography variant="body1" color="textSecondary" component="h2">
           {`#${post._id} `}
         </Typography>
       </div>
+      <div className={classes.overlay2}>
+        {(post.email === user.result.email && post.state === 'Pending') &&
+          <Button
+            color="secondary"
+            size="small"
+            onClick={() => dispatch(deletePost(post._id))}
+          >
+            <DeleteIcon fontSize="medium" />
+          </Button>}
+      </div>
       <Typography
-        className={classes.title}
+        className={classes.details}
         gutterBottom
         variant="h5"
         component="h2"
       >
-        {post.title}
+        Title: {post.title}
       </Typography>
       <CardActions className={classes.cardActions}>
-        {(user.result.isAdmin) &&
+        {
+          (user.result.isAdmin) &&
           <Button
             aria-controls="customized-menu"
             aria-haspopup="true"
             variant="contained"
             color="primary"
             onClick={handleClick}
+            fullWidth
           >
-            {!priority
-              ? "Low Priority"
-              : priority === 1
-                ? "Medium Priority"
-                : "High Priority"}
-          </Button>}
+            {
+              !priority
+                ? "Low Priority"
+                : priority === 1
+                  ? "Medium Priority"
+                  : "High Priority"
+            }
+          </Button>
+        }
 
         <StyledMenu
           id="customized-menu"
@@ -189,6 +193,7 @@ const Post = ({ post }) => {
           color="secondary"
           disabled={!user.result.isAdmin}
           onClick={handleStateClick}
+          fullWidth
         >
           {state}
         </Button>

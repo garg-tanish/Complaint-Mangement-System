@@ -1,9 +1,14 @@
 import Post from "./Post/Post";
 import useStyles from "./styles";
 
+import {
+  Grid,
+  Typography,
+  Grow,
+  Container
+} from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Grid, Typography, Grow, Container } from "@material-ui/core";
 
 const Posts = ({ setCurrentId }) => {
   const classes = useStyles();
@@ -11,7 +16,7 @@ const Posts = ({ setCurrentId }) => {
 
   const posts = useSelector((state) => {
     return user?.result?.isAdmin
-      ? state?.postReducer || [] // Ensure it's an array
+      ? state?.postReducer || []
       : (state?.postReducer || []).filter((post) => post.email === user?.result?.email)
   }
   );
@@ -19,8 +24,8 @@ const Posts = ({ setCurrentId }) => {
   return (
     <Grow in>
       <Container>
-        <Grid container justifyContent="center" alignItems="stretch">
-          <Grid item xs={12} sm={8}>
+        <Grid container justifyContent="center" alignItems="center">
+          <Grid item xs={12} sm={10} md={8}>
             {!posts.length ? (
               <Grid item xs={12} sm={4}>
                 <Container className={classes.notFound}>
@@ -34,13 +39,12 @@ const Posts = ({ setCurrentId }) => {
               </Grid>
             ) : (
               <Grid
-                className={classes.container}
+                className={classes.mainContainer}
                 container
-                alignItems="stretch"
                 spacing={3}
               >
                 {posts.map((post) => (
-                  <Grid key={post._id} item xs={12} sm={6} md={6}>
+                  <Grid key={post._id} item xs={12} sm={10} md={6}>
                     <Post post={post} setCurrentId={setCurrentId} />
                   </Grid>
                 ))}

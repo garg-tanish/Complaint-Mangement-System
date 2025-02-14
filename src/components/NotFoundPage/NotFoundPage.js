@@ -1,11 +1,11 @@
 import useStyles from "./styles";
+
 import {
   Grid,
   Typography,
   Container,
   Grow,
 } from "@material-ui/core";
-
 import { Link } from "react-router-dom";
 
 const NotFoundPage = () => {
@@ -16,13 +16,16 @@ const NotFoundPage = () => {
   return (
     <Grow in>
       <Container>
-        <Grid container justifyContent="center" alignItems="stretch">
+        <Grid container justifyContent="center" alignItems="center">
           <Grid item xs={12} sm={4}>
             <Container className={classes.notFound}>
               <Typography variant="h2">Sorry</Typography>
               <Typography variant="h5">This page cannot be found <br /> 404 Page </Typography>
-              <Link to={user ? '/' : '/auth'}> <Typography variant="h6" color="secondary">
-                {user ? 'Back to the Homepage...' : 'You are not Logged in yet.'}  </Typography></Link>
+              <Link to={user ? '/' : '/auth'}>
+                <Typography variant="h6" color="secondary">
+                  {user ? 'Back to the Homepage...' : 'You are not Logged in yet.'}
+                </Typography>
+              </Link>
             </Container>
           </Grid>
         </Grid>

@@ -63,69 +63,75 @@ const Navbar = () => {
   return (
     <>
       <AppBar position="static" className={classes.appBar}>
-        <Toolbar>
 
-          <Avatar className={classes.avatar}>
-            {user?.result.name?.charAt(0).toUpperCase() || "H"}
-          </Avatar>
+        {user ?
+          <Toolbar>
+            <Avatar className={classes.avatar}>
+              {user?.result.name?.split(" ").map(word => word.charAt(0)).join("").toUpperCase() || "U"}
+            </Avatar>
+            <Typography variant="h6" className={classes.title}>
+              {user?.result.name || "User Name"}
+            </Typography>
 
-          <Typography variant="h6" className={classes.title}>
-            {user?.result.name || "User Name"}
-          </Typography>
-
-          {isMobile && (
-            <IconButton
-              edge="end"
-              className={classes.menuButton}
-              color="inherit"
-              onClick={() => setMobileOpen(true)}
-            >
-              <Menu />
-            </IconButton>
-          )}
-
-          {!isMobile ? (
-            <div className={classes.dashboard}>
-              <Link to="/dashboard" className={classes.link}>
-                Dashboard
-              </Link>
-              <Link to="/" className={classes.link}>
-                Home
-              </Link>
-              <Button
-                variant="contained"
-                className={classes.logout}
-                color="secondary"
-                onClick={logout}
+            {isMobile && (
+              <IconButton
+                edge="end"
+                className={classes.menuButton}
+                color="inherit"
+                onClick={() => setMobileOpen(true)}
               >
-                Logout
-              </Button>
-            </div>
-          ) : (
-            <Drawer
-              anchor="right"
-              open={mobileOpen}
-              onClose={() => setMobileOpen(false)}
-            >
-              <List className={classes.drawer}>
-                <div className={classes.closeButton}>
-                  <IconButton onClick={() => setMobileOpen(false)}>
-                    <Close />
-                  </IconButton>
-                </div>
-                <ListItem button onClick={() => setMobileOpen(false)} component={Link} to="/dashboard">
-                  <ListItemText primary="Dashboard" />
-                </ListItem>
-                <ListItem button onClick={() => setMobileOpen(false)} component={Link} to="/">
-                  <ListItemText primary="Home" />
-                </ListItem>
-                <ListItem button onClick={logout}>
-                  <ListItemText primary="Logout" />
-                </ListItem>
-              </List>
-            </Drawer>
-          )}
-        </Toolbar>
+                <Menu />
+              </IconButton>
+            )}
+
+            {!isMobile ? (
+              <div className={classes.dashboard}>
+                <Link to="/dashboard" className={classes.link}>
+                  Dashboard
+                </Link>
+                <Link to="/" className={classes.link}>
+                  Home
+                </Link>
+                <Button
+                  variant="contained"
+                  className={classes.logout}
+                  color="secondary"
+                  onClick={logout}
+                >
+                  Logout
+                </Button>
+              </div>
+            ) : (
+              <Drawer
+                anchor="right"
+                open={mobileOpen}
+                onClose={() => setMobileOpen(false)}
+              >
+                <List className={classes.drawer}>
+                  <div className={classes.closeButton}>
+                    <IconButton onClick={() => setMobileOpen(false)}>
+                      <Close />
+                    </IconButton>
+                  </div>
+                  <ListItem button onClick={() => setMobileOpen(false)} component={Link} to="/dashboard">
+                    <ListItemText primary="Dashboard" />
+                  </ListItem>
+                  <ListItem button onClick={() => setMobileOpen(false)} component={Link} to="/">
+                    <ListItemText primary="Home" />
+                  </ListItem>
+                  <ListItem button onClick={logout}>
+                    <ListItemText primary="Logout" />
+                  </ListItem>
+                </List>
+              </Drawer>
+            )}
+          </Toolbar> :
+          <Toolbar>
+            <Typography variant="h6" className={classes.heading}>
+              Welcome To Complaint System
+            </Typography>
+          </Toolbar>
+        }
       </AppBar>
 
       {showScroll && (

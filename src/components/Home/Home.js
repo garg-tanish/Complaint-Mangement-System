@@ -1,7 +1,11 @@
 import useStyles from "./styles";
 import CardItem from "./Card/Card.js";
 
-import { Grid, Grow, Container } from "@material-ui/core";
+import {
+  Grid,
+  Grow,
+  Container
+} from "@material-ui/core";
 
 const Home = () => {
   const classes = useStyles();
@@ -10,30 +14,23 @@ const Home = () => {
   return (
     <Grow in>
       <Container>
-        <Grid container justifyContent="center" alignItems="stretch">
-          <Grid item xs={12} sm={7}>
+        <Grid container justifyContent="center" alignItems="center">
+          <Grid item xs={12} sm={10} md={8}>
             <Grid
-              className={classes.container}
+              className={classes.mainContainer}
               container
-              alignItems="stretch"
+              alignItems="center"
+              justifyContent="center"
               spacing={3}
             >
-              <Grid key="1" item xs={12} sm={6} md={6}>
-                <CardItem title="Create a Complaint" link="/create" />
-              </Grid>
-
-              <Grid key="2" item xs={12} sm={6} md={6}>
-                <CardItem title="View The Complaints" link="/dashboard" />
-              </Grid>
-
-              {user.result.isAdmin && (
-                <Grid key="3" item xs={12} sm={6} md={6}>
-                  <CardItem
-                    title="Create an Admin Account"
-                    link="/auth/admin"
-                  />
+              {!user.result.isAdmin && (
+                <Grid key="1" item xs={12} sm={8} md={6}>
+                  <CardItem title="Create a Complaint" link="/create" />
                 </Grid>
               )}
+              <Grid key="2" item xs={12} sm={8} md={6}>
+                <CardItem title="View The Complaints" link="/dashboard" />
+              </Grid>
             </Grid>
           </Grid>
         </Grid>

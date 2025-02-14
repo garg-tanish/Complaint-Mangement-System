@@ -7,12 +7,6 @@ export default makeStyles({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     backgroundBlendMode: 'darken',
   },
-  border: {
-    border: 'solid',
-  },
-  fullHeightCard: {
-    height: '100%',
-  },
   card: {
     display: 'flex',
     flexDirection: 'column',
@@ -24,23 +18,22 @@ export default makeStyles({
   },
   overlay: {
     position: 'absolute',
-    top: '20px',
-    left: '20px',
+    top: '30px',
+    left: '30px',
     color: 'white',
+    wordBreak: 'true'
   },
   overlay2: {
     position: 'absolute',
-    top: '20px',
-    right: '20px',
+    top: '30px',
+    right: '10px',
     color: 'white',
-  },
-  grid: {
-    display: 'flex',
+    wordBreak: 'true'
   },
   details: {
     display: 'flex',
-    justifyContent: 'space-between',
-    margin: '20px',
+    justifyContent: 'center',
+    margin: '25px',
   },
   title: {
     padding: '0 16px',

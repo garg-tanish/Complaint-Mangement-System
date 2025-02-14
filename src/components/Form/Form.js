@@ -59,7 +59,7 @@ const Form = ({ setCurrentId }) => {
     <Grow in>
       <Container>
         <Grid container justifyContent="center" alignItems="stretch">
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={6}>
             <Paper className={classes.paper}>
               <form
                 autoComplete="off"
@@ -67,43 +67,39 @@ const Form = ({ setCurrentId }) => {
                 onSubmit={handleSubmit}
               >
                 <Typography
-                  variant="h6"
+                  variant="h4"
                   color="secondary"
                   className={classes.header}
                 >
                   Create a Compliant Report
                 </Typography>
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      autoComplete="fname"
-                      name="firstName"
-                      variant="outlined"
-                      disabled
-                      fullWidth
-                      id="firstName"
-                      label={postData.creator}
-                      value={postData.creator}
-                      onChange={(e) =>
-                        setPostData({ ...postData, creator: e.target.value })
-                      }
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      variant="outlined"
-                      disabled
-                      fullWidth
-                      id="email"
-                      label={postData.email}
-                      name="email"
-                      value={postData.email}
-                      onChange={(e) =>
-                        setPostData({ ...postData, email: e.target.value })
-                      }
-                      autoComplete="email"
-                    />
-                  </Grid>
+                  <TextField
+                    autoComplete="fname"
+                    name="firstName"
+                    variant="outlined"
+                    disabled
+                    fullWidth
+                    id="firstName"
+                    label="First Name"
+                    value={postData.creator}
+                    onChange={(e) =>
+                      setPostData({ ...postData, creator: e.target.value })
+                    }
+                  />
+                  <TextField
+                    variant="outlined"
+                    disabled
+                    fullWidth
+                    id="email"
+                    label="Email"
+                    name="email"
+                    value={postData.email}
+                    onChange={(e) =>
+                      setPostData({ ...postData, email: e.target.value })
+                    }
+                    autoComplete="email"
+                  />
                   <TextField
                     name="title"
                     required
@@ -121,7 +117,7 @@ const Form = ({ setCurrentId }) => {
                     name="address"
                     required
                     variant="outlined"
-                    label="Address"
+                    label="Department & Year"
                     fullWidth
                     autoComplete="address"
                     value={postData.address}
@@ -136,28 +132,15 @@ const Form = ({ setCurrentId }) => {
                     label="Describe problem or reason for Complaint"
                     fullWidth
                     multiline
-                    rows={6}
+                    minRows={5}
                     value={postData.content}
                     onChange={(e) =>
                       setPostData({ ...postData, content: e.target.value })
                     }
                   />
-                  <TextField
-                    name="tags"
-                    variant="outlined"
-                    label="Labels (coma separated)"
-                    fullWidth
-                    value={postData.tags}
-                    onChange={(e) =>
-                      setPostData({
-                        ...postData,
-                        tags: e.target.value.split(","),
-                      })
-                    }
-                  />
                   <div className={classes.fileInput}>
                     <FileBase
-                      type="file"
+                      type="image"
                       multiple={false}
                       onDone={({ base64 }) =>
                         setPostData({ ...postData, selectedFile: base64 })
@@ -176,9 +159,10 @@ const Form = ({ setCurrentId }) => {
                     {isPending ? "Submitting.." : "Submit"}
                   </Button>
                   <Button
+                    className={classes.buttonClear}
                     variant="contained"
                     color="secondary"
-                    size="small"
+                    size="large"
                     onClick={clear}
                     fullWidth
                   >

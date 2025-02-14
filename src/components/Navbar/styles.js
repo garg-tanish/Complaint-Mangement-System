@@ -10,7 +10,11 @@ export default makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-    marginLeft: "15px",
+    marginLeft: "15px"
+  },
+  heading: {
+    flexGrow: 1,
+    textAlign: 'center'
   },
   dashboard: {
     display: "flex",

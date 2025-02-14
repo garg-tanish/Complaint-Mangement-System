@@ -9,7 +9,7 @@ const PostDetails = () => {
 
   const { id } = useParams();
   const classes = useStyles();
-  const posts = useSelector((state) => state.posts);
+  const posts = useSelector((state) => state.postReducer);
   const post = posts.find((post) => post._id === id);
 
   return (

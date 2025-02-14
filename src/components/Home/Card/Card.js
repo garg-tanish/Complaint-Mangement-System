@@ -1,6 +1,7 @@
 import useStyles from "./styles";
 import background from "../../../images/background2.png";
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+
 import {
   Card,
   CardActions,
@@ -8,7 +9,6 @@ import {
   Typography,
   IconButton,
 } from "@material-ui/core/";
-
 import { Link } from "react-router-dom";
 
 const CardItem = ({ title, link }) => {
