@@ -4,11 +4,18 @@ import { AUTH } from '../redux/actions/actionTypes.js';
 
 export const signin = (formData, router) => async (dispatch) => {
   try {
-    const { data } = await api.signIn(formData);
-
-    dispatch({ type: AUTH, data });
-    router.push('/');
-    window.location.reload();
+    const response = await api.signIn(formData);
+    const result = response.data.result
+    const token = response.data.token
+    if (response.data.success) {
+      toast.success(response.data.message)
+      await dispatch({ type: AUTH, data: { result, token } });
+      router.push('/');
+      window.location.reload();
+    } else {
+      toast.error(response.data.message)
+      window.location.reload();
+    }
   } catch (error) {
     toast.error(error)
   }
@@ -16,11 +23,18 @@ export const signin = (formData, router) => async (dispatch) => {
 
 export const signup = (formData, router) => async (dispatch) => {
   try {
-    const { data } = await api.signUp(formData);
-
-    dispatch({ type: AUTH, data });
-    router.push('/');
-    window.location.reload();
+    const response = await api.signUp(formData);
+    const result = response.data.result
+    const token = response.data.token
+    if (response.data.success) {
+      toast.success(response.data.message)
+      await dispatch({ type: AUTH, data: { result, token } });
+      router.push('/');
+      window.location.reload();
+    } else {
+      toast.error(response.data.message)
+      window.location.reload();
+    }
   } catch (error) {
     toast.error(error)
   }
