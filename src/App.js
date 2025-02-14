@@ -9,6 +9,7 @@ import PostDetails from "./components/Posts/PostDetails/PostDetails.js";
 
 import { useDispatch } from "react-redux";
 import { getPosts } from "./actions/post";
+import { Toaster } from 'react-hot-toast';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const App = () => {
@@ -23,37 +24,40 @@ const App = () => {
   }, [currentId, dispatch]);
 
   return (
-    <Router>
-      {user && <Navbar />}
-      <Switch>
+    <>
+      <Toaster />
+      <Router>
+        <Navbar />
+        <Switch>
 
-        {user && (
-          <>
-            <Route exact path="/">
-              <Home />
-            </Route>
-            <Route exact path="/create">
-              <Form setCurrentId={setCurrentId} />
-            </Route>
-            <Route exact path="/dashboard">
-              <Posts setCurrentId={setCurrentId} />
-            </Route>
-            <Route exact path="/details/:id">
-              <PostDetails />
-            </Route>
-            {user.result.isAdmin && (
-              <Route exact path="/auth/admin">
-                <AdminAuth />
+          {user && (
+            <>
+              <Route exact path="/">
+                <Home />
               </Route>
-            )}
-          </>
-        )}
+              <Route exact path="/create">
+                <Form setCurrentId={setCurrentId} />
+              </Route>
+              <Route exact path="/dashboard">
+                <Posts setCurrentId={setCurrentId} />
+              </Route>
+              <Route exact path="/details/:id">
+                <PostDetails />
+              </Route>
+              {user.result.isAdmin && (
+                <Route exact path="/auth/admin">
+                  <AdminAuth />
+                </Route>
+              )}
+            </>
+          )}
 
-        <Route path="*">
-          <Auth />
-        </Route>
-      </Switch>
-    </Router>
+          <Route path="*">
+            <Auth />
+          </Route>
+        </Switch>
+      </Router>
+    </>
   );
 };
 
