@@ -27,6 +27,9 @@ const PostDetails = () => {
                 <Typography variant="body2" className={classes.content}>
                   {post.content}
                 </Typography>
+                <Typography variant="body2" className={classes.content}>
+                  {post.feedback}
+                </Typography>
               </Grid>
             )}
           </Grid>

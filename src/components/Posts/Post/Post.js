@@ -4,6 +4,7 @@ import useStyles from "./styles";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import DeleteIcon from "@material-ui/icons/Delete";
+import FeedbackIcon from '@material-ui/icons/Feedback';
 import background from "../../../images/background.png";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -30,13 +31,12 @@ const Post = ({ post }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const [priority, setPriority] = React.useState(post.priority);
-  const [state, setState] = React.useState(post.state);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [stateMenu, setStateMenu] = React.useState(null);
   const [postData, setPostData] = React.useState({
     priority: post.priority,
     state: post.state,
+    feedback: post.feedback
   });
 
   const user = JSON.parse(localStorage.getItem("profile"));
@@ -89,17 +89,31 @@ const Post = ({ post }) => {
   };
 
   const handlePriority = (noPriority) => {
-    setPriority(noPriority);
-    setPostData({ ...postData, priority: noPriority });
+    setPostData((prevData) => ({
+      ...prevData,
+      priority: noPriority
+    }));
     dispatch(updatePost(post._id, postData));
     handleClose();
   };
 
   const handleState = (status) => {
-    setPostData({ ...postData, state: status });
+    setPostData((prevData) => ({
+      ...prevData,
+      state: status
+    }));
     dispatch(updatePost(post._id, postData));
-    setState(status);
     handleStateClose();
+  };
+
+  const handleFeedbackClick = () => {
+    const userFeedback = prompt('Enter Feedback Below...');
+    setPostData((prevData) => ({
+      ...prevData,
+      feedback: userFeedback,
+    }));
+    dispatch(updatePost(post._id, postData));
+    handleClose();
   };
 
   return (
@@ -121,7 +135,7 @@ const Post = ({ post }) => {
         </Typography>
       </div>
       <div className={classes.overlay2}>
-        {(post.email === user.result.email && post.state === 'Pending') &&
+        {(post.email === user.result.email && postData.state === 'Pending') &&
           <Button
             color="secondary"
             size="small"
@@ -150,9 +164,9 @@ const Post = ({ post }) => {
             fullWidth
           >
             {
-              !priority
+              !postData.priority
                 ? "Low Priority"
-                : priority === 1
+                : postData.priority === 1
                   ? "Medium Priority"
                   : "High Priority"
             }
@@ -195,8 +209,18 @@ const Post = ({ post }) => {
           onClick={handleStateClick}
           fullWidth
         >
-          {state}
+          {postData.state}
         </Button>
+
+        {!user.result.isAdmin &&
+          (
+            postData.state === 'Resolved' && postData.feedback === '' &&
+            <div style={{ cursor: 'pointer' }}>
+              <FeedbackIcon fontSize="large" onClick={handleFeedbackClick} />
+            </div>
+          )
+        }
+
         <StyledMenu
           id="status-menu"
           anchorEl={stateMenu}
