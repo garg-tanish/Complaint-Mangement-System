@@ -5,8 +5,7 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import postRoutes from './routes/post.js';
 import userRouter from "./routes/user.js";
-import emailRouter from './routes/email.js'
-import { verifyOtp } from './controller/verifyOtp.js';
+import { sendEmail } from './controller/sendEmail.js';
 
 const app = express();
 dotenv.config({ path: '../.env' });
@@ -17,8 +16,7 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 
 app.use("/user", userRouter)
 app.use('/posts', postRoutes)
-app.use('/email', emailRouter)
-app.post('/verify-otp', verifyOtp)
+app.post('/send-email', sendEmail)
 
 const PORT = process.env.SERVER_PORT || 5000;
 const CONNECTION_URL = process.env.MOONGO_URI;

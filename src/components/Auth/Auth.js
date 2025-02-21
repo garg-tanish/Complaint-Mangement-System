@@ -1,8 +1,9 @@
 import React from "react";
-import Icon from "./Icon";
+// import Icon from "./Icon";
 import Input from "./Input";
 import useStyles from "./styles";
 import toast from 'react-hot-toast';
+import * as api from '../../api/index.js';
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import {
   Avatar,
@@ -16,8 +17,8 @@ import {
 
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { GoogleLogin } from "react-google-login";
-import { AUTH } from "../../redux/actions/actionTypes";
+// import { GoogleLogin } from "react-google-login";
+// import { AUTH } from "../../redux/actions/actionTypes";
 import { signin, signup } from "../../actions/auth";
 
 let initialState = {
@@ -27,6 +28,7 @@ let initialState = {
   password: "",
   confirmPassword: "",
   isAdmin: false,
+  otp: ''
 };
 
 const SignUp = ({ admin = false }) => {
@@ -36,6 +38,7 @@ const SignUp = ({ admin = false }) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const [otpSent, setOtpSent] = React.useState(false)
   const [form, setForm] = React.useState(initialState);
   const [isSignup, setIsSignup] = React.useState(admin);
   const [showPassword, setShowPassword] = React.useState(false);
@@ -57,21 +60,66 @@ const SignUp = ({ admin = false }) => {
     }
   };
 
-  const googleSuccess = async (res) => {
-    const result = res?.profileObj;
-    const token = res?.tokenId;
+  const send_otp = (e) => {
+    e.preventDefault()
+    if (isSignup) {
+      const verifySignup = async () => {
+        try {
+          const response = await api.verifySignup(form);
+          if (response.data.success) {
+            toast.success(response.data.message)
+            setOtpSent(true)
+          } else {
+            toast.error(response.data.message)
+            history.push('/');
+            window.location.reload();
+          }
+        } catch (error) {
+          toast.error(error.message)
+          history.push('/');
+          window.location.reload();
+        }
+      }
+      if (form.password === form.confirmPassword) verifySignup()
+      else toast.error('Password & Confirm password are not same.')
 
-    try {
-      dispatch({ type: AUTH, data: { result, token } });
-      history.push("/");
-      window.location.reload();
-    } catch (error) {
-      toast.error(error)
+    } else {
+      const verifySignin = async () => {
+        try {
+          const response = await api.verifySignin(form);
+          if (response.data.success) {
+            toast.success(response.data.message)
+            setOtpSent(true)
+          } else {
+            toast.error(response.data.message)
+            history.push('/');
+            window.location.reload();
+          }
+        } catch (error) {
+          toast.error(error.message)
+          history.push('/');
+          window.location.reload();
+        }
+      }
+      verifySignin()
     }
-  };
+  }
 
-  const googleError = () =>
-    toast.error("Google SignIn was unsuccessful. Try again later");
+  // const googleSuccess = async (res) => {
+  //   const result = res?.profileObj;
+  //   const token = res?.tokenId;
+
+  //   try {
+  //     dispatch({ type: AUTH, data: { result, token } });
+  //     history.push("/");
+  //     window.location.reload();
+  //   } catch (error) {
+  //     toast.error(error)
+  //   }
+  // };
+
+  // const googleError = () =>
+  //   toast.error("Google SignIn was unsuccessful. Try again later");
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -101,11 +149,13 @@ const SignUp = ({ admin = false }) => {
                             label="First Name"
                             handleChange={handleChange}
                             autoFocus
+                            disabled={otpSent}
                           />
                           <Input
                             name="lastName"
                             label="Last Name"
                             handleChange={handleChange}
+                            disabled={otpSent}
                           />
                         </>
                       )}
@@ -114,6 +164,7 @@ const SignUp = ({ admin = false }) => {
                       label="Email Address"
                       handleChange={handleChange}
                       type="email"
+                      disabled={otpSent}
                     />
                     <Input
                       name="password"
@@ -121,6 +172,7 @@ const SignUp = ({ admin = false }) => {
                       handleChange={handleChange}
                       type={showPassword ? "text" : "password"}
                       handleShowPassword={handleShowPassword}
+                      disabled={otpSent}
                     />
                     {
                       isSignup && (
@@ -129,22 +181,49 @@ const SignUp = ({ admin = false }) => {
                           label="Repeat Password"
                           handleChange={handleChange}
                           type="password"
+                          disabled={otpSent}
+                        />
+                      )}
+
+                    {
+                      otpSent && (
+                        <Input
+                          name="otp"
+                          label="Otp"
+                          handleChange={handleChange}
+                          type="number"
                         />
                       )}
                   </Grid>
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
-                  >
-                    {isSignup ? "Sign Up" : "Sign In"}
-                  </Button>
+
+                  {
+                    !otpSent && <Button
+                      fullWidth
+                      variant="contained"
+                      color="primary"
+                      className={classes.submit}
+                      onClick={send_otp}
+                      disabled={otpSent}
+                    >
+                      Send Otp
+                    </Button>
+                  }
+
+                  {
+                    otpSent && <Button
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      color="primary"
+                      className={classes.submit}
+                    >
+                      {isSignup ? "Sign Up" : "Sign In"}
+                    </Button>
+                  }
 
                   {!admin && (
                     <>
-                      <GoogleLogin
+                      {/*<GoogleLogin
                         clientId='50161686094-c0803lbaoes45ce6l51ae9p5ees3sgfh.apps.googleusercontent.com'
                         render={(renderProps) => (
                           <Button
@@ -162,7 +241,7 @@ const SignUp = ({ admin = false }) => {
                         onSuccess={googleSuccess}
                         onFailure={googleError}
                         cookiePolicy="single_host_origin"
-                      />
+                      />*/}
                       <Grid container justifyContent="center">
                         <Grid item>
                           <Button onClick={switchMode}>

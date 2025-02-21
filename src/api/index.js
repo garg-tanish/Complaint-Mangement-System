@@ -18,4 +18,6 @@ export const signUp = (formData) => API.post('/user/signup', formData);
 export const verifyOtp = (formData) => API.post('/verify-otp', formData);
 export const sendOtp = (formData) => API.post('/email/sendOtp', formData);
 export const SendEmail = (formData) => API.post('/email/sendEmail', formData);
+export const verifySignin = (formData) => API.post('/user/verify-signin', formData);
+export const verifySignup = (formData) => API.post('/user/verify-signup', formData);
 export const updatePost = (id, updatedPost) => API.patch(`/posts/${id}`, updatedPost);
