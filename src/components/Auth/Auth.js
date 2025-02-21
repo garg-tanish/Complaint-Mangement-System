@@ -11,10 +11,7 @@ import {
   Grid,
   Typography,
   Container,
-  Grow,
-  FormGroup,
-  FormControlLabel,
-  Switch,
+  Grow
 } from "@material-ui/core";
 
 import { useDispatch } from "react-redux";
@@ -39,7 +36,6 @@ const SignUp = ({ admin = false }) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const [isAdmin, setIsAdmin] = React.useState(true);
   const [form, setForm] = React.useState(initialState);
   const [isSignup, setIsSignup] = React.useState(admin);
   const [showPassword, setShowPassword] = React.useState(false);
@@ -80,11 +76,6 @@ const SignUp = ({ admin = false }) => {
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleAdministratorChange = (event) => {
-    setIsAdmin(event.target.checked);
-    setForm({ ...form, isAdmin: !!isAdmin });
-  };
-
   return (
     <Grow in>
       <Container>
@@ -96,25 +87,28 @@ const SignUp = ({ admin = false }) => {
                   <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                  {isSignup ? "Sign up" : "Sign in"}
+                  {
+                    isSignup ? "Sign up" : "Sign in"
+                  }
                 </Typography>
                 <form className={classes.form} onSubmit={handleSubmit}>
                   <Grid container spacing={2}>
-                    {isSignup && (
-                      <>
-                        <Input
-                          name="firstName"
-                          label="First Name"
-                          handleChange={handleChange}
-                          autoFocus
-                        />
-                        <Input
-                          name="lastName"
-                          label="Last Name"
-                          handleChange={handleChange}
-                        />
-                      </>
-                    )}
+                    {
+                      isSignup && (
+                        <>
+                          <Input
+                            name="firstName"
+                            label="First Name"
+                            handleChange={handleChange}
+                            autoFocus
+                          />
+                          <Input
+                            name="lastName"
+                            label="Last Name"
+                            handleChange={handleChange}
+                          />
+                        </>
+                      )}
                     <Input
                       name="email"
                       label="Email Address"
@@ -128,38 +122,15 @@ const SignUp = ({ admin = false }) => {
                       type={showPassword ? "text" : "password"}
                       handleShowPassword={handleShowPassword}
                     />
-                    {isSignup && (
-                      <Input
-                        name="confirmPassword"
-                        label="Repeat Password"
-                        handleChange={handleChange}
-                        type="password"
-                      />
-                    )}
-                    {admin && (
-                      <FormGroup>
-                        <Grid
-                          component="label"
-                          container
-                          alignItems="center"
-                          spacing={1}
-                        >
-                          <Grid item className={classes.Administrator}>
-                            Administrator
-                          </Grid>
-                          <FormControlLabel
-                            control={
-                              <Switch
-                                name="isAdmin"
-                                checked={isAdmin}
-                                onChange={handleAdministratorChange}
-                                aria-label="administrator switch"
-                              />
-                            }
-                          />
-                        </Grid>
-                      </FormGroup>
-                    )}
+                    {
+                      isSignup && (
+                        <Input
+                          name="confirmPassword"
+                          label="Repeat Password"
+                          handleChange={handleChange}
+                          type="password"
+                        />
+                      )}
                   </Grid>
                   <Button
                     type="submit"
