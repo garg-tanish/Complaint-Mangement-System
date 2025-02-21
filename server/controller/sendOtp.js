@@ -1,6 +1,9 @@
 import crypto from 'crypto'
+import dotenv from 'dotenv';
 import nodemailer from 'nodemailer'
-// import otpModel from '../models/otpModel'
+import otpModel from '../models/otpModel.js'
+
+dotenv.config({ path: '../../.env' });
 
 export const sendOtp = async (request, response) => {
 
@@ -22,14 +25,18 @@ export const sendOtp = async (request, response) => {
     await transporter.sendMail({
       from: process.env.GMAIL_EMAIL,
       to: `${email}`,
-      subject: "Otp for ChatApp",
-      text: `Your otp is ${otp}`
+      subject: "Otp for Complaint System",
+      text: `Your otp is ${otp}. Kindly fill this to continue further.`
     });
 
     const payload = { email, otp, is_used: "false" }
+    const otpCol = new otpModel(payload)
 
-    // const otpCol = new otpModel(payload)
-    // await otpCol.save()
+    try {
+      await otpCol.save()
+    } catch (error) {
+      res.status(409).json({ message: error.message });
+    }
 
     return response.status(201).json({
       message: `Otp Sent to ${email}`,
@@ -39,9 +46,7 @@ export const sendOtp = async (request, response) => {
 
   } catch (error) {
     return response.status(500).json({
-      message: error.message || error,
-      error: true,
-      success: false
+      message: error.message || error
     })
   }
 

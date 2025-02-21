@@ -1,13 +1,14 @@
 import mongoose from 'mongoose';
 
-const otpSchema = new mongoose.Schema({
+const otpSchema = mongoose.Schema({
 
   email: {
     type: String,
     required: true
   },
   otp: {
-    type: String
+    type: Number,
+    required: true
   },
   is_used: {
     type: Boolean
@@ -16,6 +17,4 @@ const otpSchema = new mongoose.Schema({
   timestamps: true
 })
 
-const otpModel = mongoose.model('Otp', otpSchema)
-
-export default otpModel
+export default mongoose.model("Otp", otpSchema);

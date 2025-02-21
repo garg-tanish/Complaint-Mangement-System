@@ -14,10 +14,13 @@ export const signin = (formData, router) => async (dispatch) => {
       window.location.reload();
     } else {
       toast.error(response.data.message)
+      router.push('/');
       window.location.reload();
     }
   } catch (error) {
-    toast.error(error)
+    toast.error(error.message)
+    router.push('/');
+    window.location.reload();
   }
 };
 
@@ -33,9 +36,12 @@ export const signup = (formData, router) => async (dispatch) => {
       window.location.reload();
     } else {
       toast.error(response.data.message)
+      router.push('/');
       window.location.reload();
     }
   } catch (error) {
     toast.error(error)
+    router.push('/');
+    window.location.reload();
   }
 };

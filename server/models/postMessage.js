@@ -9,10 +9,6 @@ const postSchema = mongoose.Schema({
     tags: [String],
     selectedFile: String,
     address: String,
-    likeCount: {
-        type: Number,
-        default: 0,
-    },
     createAt: {
         type: Date,
         default: new Date()
@@ -24,6 +20,10 @@ const postSchema = mongoose.Schema({
     priority: {
         type: Number,
         default: 0
+    },
+    feedback: {
+        type: String,
+        default: ''
     }
 });
 

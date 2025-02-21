@@ -1,10 +1,10 @@
-import crypto from 'crypto'
+import dotenv from 'dotenv';
+
+dotenv.config({ path: '../../.env' });
 
 export const sendEmail = async (request, response) => {
   try {
-    const { email } = request.body
-
-    const otp = crypto.randomInt(1000, 9999);
+    const { email, subject, content } = request.body
 
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
@@ -19,26 +19,19 @@ export const sendEmail = async (request, response) => {
     await transporter.sendMail({
       from: process.env.GMAIL_EMAIL,
       to: `${email}`,
-      subject: "Otp for ChatApp",
-      text: `Your otp is ${otp}`
+      subject: `${subject}`,
+      text: `${content}`
     });
 
-    const payload = { email, otp, is_used: "false" }
-
-    const otpCol = new OtpModel(payload)
-    await otpCol.save()
-
     return response.status(201).json({
-      message: `Otp Sent to ${email}`,
+      message: `Response sent successfully.`,
       error: false,
       success: true
     })
 
   } catch (error) {
     return response.status(500).json({
-      message: error.message || error,
-      error: true,
-      success: false
+      message: error.message || error
     })
   }
 }

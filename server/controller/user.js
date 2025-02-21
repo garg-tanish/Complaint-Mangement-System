@@ -10,7 +10,7 @@ export const signin = async (req, res) => {
   try {
     const oldUser = await UserModal.findOne({ email });
 
-    if (!oldUser) return res.status(404).json({
+    if (!oldUser) return res.status(200).json({
       message: "User doesn't exist",
       success: false,
       error: true
@@ -18,7 +18,7 @@ export const signin = async (req, res) => {
 
     const isPasswordCorrect = await bcrypt.compare(password, oldUser.password);
 
-    if (!isPasswordCorrect) return res.status(400).json({
+    if (!isPasswordCorrect) return res.status(200).json({
       message: "Invalid credentials",
       success: false,
       error: true
@@ -35,9 +35,7 @@ export const signin = async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({
-      message: `Something went wrong ${err} `,
-      success: false,
-      error: true
+      message: `Something went wrong ${err} `
     });
   }
 };
@@ -59,17 +57,15 @@ export const signup = async (req, res) => {
     const token = jwt.sign({ email: result.email, id: result._id }, secret, { expiresIn: "1h" });
 
     res.status(201).json({
-      result, token,
+      result,
+      token,
       message: "Sign Up successfully",
       success: true,
       error: false,
     });
   } catch (error) {
     res.status(500).json({
-      message: `Something went wrong ${err} `,
-      success: false,
-      error: true
+      message: `Something went wrong ${err} `
     });
-    console.log(error);
   }
 };
