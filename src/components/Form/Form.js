@@ -24,13 +24,13 @@ const Form = ({ setCurrentId }) => {
 
   const [isPending, setIsPending] = React.useState(false);
   const [postData, setPostData] = React.useState({
-    creator: user?.result.name,
-    email: user?.result.email,
+    creator: user?.result?.name,
+    email: user?.result?.email,
     title: "",
     content: "",
-    tags: "",
+    batch: user?.result?.batch,
     selectedFile: "",
-    address: "",
+    department: user?.result?.department,
   });
 
   const handleSubmit = (e) => {
@@ -48,9 +48,9 @@ const Form = ({ setCurrentId }) => {
       email: "",
       title: "",
       content: "",
-      tags: "",
+      batch: "",
       selectedFile: "",
-      address: "",
+      department: "",
     });
     setIsPending(false);
   };
@@ -83,9 +83,6 @@ const Form = ({ setCurrentId }) => {
                     id="firstName"
                     label="First Name"
                     value={postData.creator}
-                    onChange={(e) =>
-                      setPostData({ ...postData, creator: e.target.value })
-                    }
                   />
                   <TextField
                     variant="outlined"
@@ -95,10 +92,27 @@ const Form = ({ setCurrentId }) => {
                     label="Email"
                     name="email"
                     value={postData.email}
-                    onChange={(e) =>
-                      setPostData({ ...postData, email: e.target.value })
-                    }
                     autoComplete="email"
+                  />
+                  <TextField
+                    name="department"
+                    id="department"
+                    disabled
+                    variant="outlined"
+                    label="Department"
+                    fullWidth
+                    autoComplete="department"
+                    value={postData.department}
+                  />
+                  <TextField
+                    name="batch"
+                    id="batch"
+                    disabled
+                    variant="outlined"
+                    label="Batch"
+                    fullWidth
+                    autoComplete="batch"
+                    value={postData.batch}
                   />
                   <TextField
                     name="title"
@@ -113,18 +127,7 @@ const Form = ({ setCurrentId }) => {
                       setPostData({ ...postData, title: e.target.value })
                     }
                   />
-                  <TextField
-                    name="address"
-                    required
-                    variant="outlined"
-                    label="Department & Year"
-                    fullWidth
-                    autoComplete="address"
-                    value={postData.address}
-                    onChange={(e) =>
-                      setPostData({ ...postData, address: e.target.value })
-                    }
-                  />
+
                   <TextField
                     name="message"
                     required

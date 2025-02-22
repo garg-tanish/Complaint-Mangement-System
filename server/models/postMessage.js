@@ -6,9 +6,9 @@ const postSchema = mongoose.Schema({
     email: String,
     title: String,
     content: String,
-    tags: [String],
+    department: String,
+    batch: String,
     selectedFile: String,
-    address: String,
     createAt: {
         type: Date,
         default: new Date()

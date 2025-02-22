@@ -13,6 +13,14 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  department: {
+    type: String,
+    required: true
+  },
+  batch: {
+    type: String,
+    required: true
+  },
   isAdmin: {
     type: Boolean,
     default: false
