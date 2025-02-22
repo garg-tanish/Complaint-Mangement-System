@@ -3,7 +3,12 @@ import useStyles from "./styles";
 
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Grid, Typography, Grow, Container } from "@material-ui/core";
+import {
+  Grid,
+  Typography,
+  Grow,
+  Container
+} from "@material-ui/core";
 
 const PostDetails = () => {
 
