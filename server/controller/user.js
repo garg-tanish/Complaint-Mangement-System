@@ -13,15 +13,24 @@ export const signin = async (req, res) => {
   const { email, otp } = req.body;
 
   try {
-    const oldUser = await UserModal.findOne({ email });
-    const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, { expiresIn: "1h" });
+    const User = await otpModel.find({ email, otp, is_used: 'false' });
 
-    if (oldUser.otp === otp) return res.status(200).json({
-      message: "Sign In successfully",
-      success: true,
-      error: false,
-      result: oldUser,
-      token
+    if (User) {
+      const oldUser = await UserModal.findOne({ email });
+      const token = jwt.sign({ email: oldUser.email, id: oldUser._id, department: oldUser.department }, secret, { expiresIn: "1h" });
+      await otpModel.updateOne({ email, otp, is_used: 'true' })
+      return res.status(200).json({
+        message: "Sign In successfully",
+        success: true,
+        error: false,
+        result: oldUser,
+        token
+      });
+    }
+    res.status(200).json({
+      message: "Sign In unsuccessful",
+      success: false,
+      error: true
     });
   } catch (err) {
     res.status(500).json({
@@ -91,25 +100,32 @@ export const verifySignin = async (req, res) => {
 };
 
 export const signup = async (req, res) => {
-  const { email, password, firstName, lastName, isAdmin, otp } = req.body;
+  const { email, password, firstName, lastName, isAdmin, otp, department, batch } = req.body;
 
   try {
-    const oldUser = await UserModal.findOne({ email });
-    const hashedPassword = await bcrypt.hash(password, 12);
-    const result = await UserModal.create({ email, password: hashedPassword, isAdmin, name: `${firstName} ${lastName}` });
-    const token = jwt.sign({ email: result.email, id: result._id }, secret, { expiresIn: "1h" });
+    const User = await otpModel.find({ email, otp, is_used: 'false' });
 
-
-    if (oldUser.otp === otp) return res.status(201).json({
-      result,
-      token,
-      message: "Sign Up successfully",
-      success: true,
-      error: false,
+    if (User) {
+      const hashedPassword = await bcrypt.hash(password, 12);
+      const result = await UserModal.create({ email, password: hashedPassword, isAdmin, department, batch, name: `${firstName} ${lastName}` });
+      const token = jwt.sign({ email: result.email, id: result._id, department: result.department }, secret, { expiresIn: "1h" });
+      await otpModel.updateOne({ email, otp, is_used: 'true' })
+      return res.status(200).json({
+        message: "Sign Up successfully",
+        success: true,
+        error: false,
+        result,
+        token
+      });
+    }
+    res.status(200).json({
+      message: "Sign Up unsuccessful",
+      success: false,
+      error: true
     });
   } catch (error) {
     res.status(500).json({
-      message: `Something went wrong ${err} `
+      message: `Something went wrong ${error} `
     });
   }
 };
@@ -160,7 +176,7 @@ export const verifySignup = async (req, res) => {
     })
   } catch (error) {
     res.status(500).json({
-      message: `Something went wrong ${err} `
+      message: `Something went wrong ${error} `
     });
   }
 };
