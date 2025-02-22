@@ -5,23 +5,20 @@ import Auth from "./components/Auth/Auth.js";
 import Posts from "./components/Posts/Posts.js";
 import Navbar from "./components/Navbar/Navbar.js";
 import AdminAuth from "./components/Auth/AdminAuth.js";
+import Profile from './components/UserProfile/Profile.js'
 import PostDetails from "./components/Posts/PostDetails/PostDetails.js";
 
-import { useDispatch } from "react-redux";
-import { getPosts } from "./actions/post";
 import { Toaster } from 'react-hot-toast';
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
 
 const App = () => {
-  const dispatch = useDispatch();
-
   const [currentId, setCurrentId] = React.useState(0);
 
   const user = JSON.parse(localStorage.getItem("profile"));
-
-  React.useEffect(() => {
-    dispatch(getPosts());
-  }, [currentId, dispatch]);
 
   return (
     <>
@@ -30,27 +27,32 @@ const App = () => {
         <Navbar />
         <Switch>
 
-          {user && (
-            <>
-              <Route exact path="/">
-                <Home />
-              </Route>
-              <Route exact path="/create">
-                <Form setCurrentId={setCurrentId} />
-              </Route>
-              <Route exact path="/dashboard">
-                <Posts setCurrentId={setCurrentId} />
-              </Route>
-              <Route exact path="/details/:id">
-                <PostDetails />
-              </Route>
-              {user.result.isAdmin && (
-                <Route exact path="/auth/admin">
-                  <AdminAuth />
+          {
+            user && (
+              <>
+                <Route exact path="/">
+                  <Home currentId={currentId} />
                 </Route>
-              )}
-            </>
-          )}
+                <Route exact path="/create">
+                  <Form setCurrentId={setCurrentId} />
+                </Route>
+                <Route exact path="/dashboard">
+                  <Posts setCurrentId={setCurrentId} />
+                </Route>
+                <Route exact path="/details/:id">
+                  <PostDetails />
+                </Route>
+                <Route exact path="/user-profile">
+                  <Profile />
+                </Route>
+                {
+                  user.result.isAdmin && (
+                    <Route exact path="/auth/admin">
+                      <AdminAuth />
+                    </Route>
+                  )}
+              </>
+            )}
 
           <Route path="*">
             <Auth />
