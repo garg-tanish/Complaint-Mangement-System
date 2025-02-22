@@ -1,6 +1,6 @@
 import toast from 'react-hot-toast';
 import * as api from '../api/index.js';
-import { FETCH_ALL, CREATE, UPDATE, DELETE, LIKE } from '../redux/actions/actionTypes.js';
+import { FETCH_ALL, CREATE, UPDATE, DELETE } from '../redux/actions/actionTypes.js';
 
 export const getPosts = () => async (dispatch) => {
   try {
@@ -27,16 +27,6 @@ export const updatePost = (id, post) => async (dispatch) => {
     const { data } = await api.updatePost(id, post);
 
     dispatch({ type: UPDATE, payload: data });
-  } catch (error) {
-    toast.error(error.message)
-  }
-};
-
-export const likePost = (id) => async (dispatch) => {
-  try {
-    const { data } = await api.likePost(id);
-
-    dispatch({ type: LIKE, payload: data });
   } catch (error) {
     toast.error(error.message)
   }
