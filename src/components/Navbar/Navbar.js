@@ -66,9 +66,11 @@ const Navbar = () => {
 
         {user ?
           <Toolbar>
-            <Avatar className={classes.avatar}>
-              {user?.result.name?.split(" ").map(word => word.charAt(0)).join("").toUpperCase() || "U"}
-            </Avatar>
+            <Link to="/user-profile" className={classes.link}>
+              <Avatar className={classes.avatar}>
+                {user?.result.name?.split(" ").map(word => word.charAt(0)).join("").toUpperCase() || "U"}
+              </Avatar>
+            </Link>
             <Typography variant="h6" className={classes.title}>
               {user?.result.name || "User Name"}
             </Typography>
