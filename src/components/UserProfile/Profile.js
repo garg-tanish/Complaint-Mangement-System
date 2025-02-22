@@ -1,5 +1,7 @@
 import React from 'react'
 import useStyles from "./styles";
+import toast from 'react-hot-toast';
+import * as api from '../../api/index.js';
 
 import { useHistory } from "react-router-dom";
 import {
@@ -14,13 +16,43 @@ import {
 const Profile = () => {
   const classes = useStyles();
   const history = useHistory();
-
   const user = JSON.parse(localStorage.getItem("profile"));
+  const [form, setForm] = React.useState({
+    email: user?.result?.email,
+    password: '',
+    newPassword: ''
+  })
+
+  const [changePasswordClick, setChangePasswordClick] = React.useState(false)
+
+  const changePassword = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await api.changePassword(form);
+      if (response.data.success) {
+        toast.success(response.data.message)
+        history.push('/');
+        window.location.reload();
+      } else {
+        toast.error(response.data.message)
+        history.push('/');
+        window.location.reload();
+      }
+    } catch (error) {
+      toast.error(error.message)
+      history.push('/');
+      window.location.reload();
+    }
+
+  }
 
   const close = (e) => {
     e.preventDefault();
     history.push("/");
   };
+
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
   return (
     <Grow in>
@@ -49,15 +81,6 @@ const Profile = () => {
                     value={user?.result?.email}
                   />
                   <TextField
-                    name="password"
-                    id='password'
-                    variant="outlined"
-                    label="Password"
-                    disabled
-                    fullWidth
-                    value={user?.result?.password}
-                  />
-                  <TextField
                     name="department"
                     id='department'
                     variant="outlined"
@@ -84,6 +107,56 @@ const Profile = () => {
                     disabled
                     value={user?.result?.isAdmin}
                   />
+
+                  {
+                    changePasswordClick &&
+                    <>
+                      <TextField
+                        name="password"
+                        id='password'
+                        variant="outlined"
+                        label="Password"
+                        required
+                        fullWidth
+                        value={form.password}
+                        onChange={handleChange}
+                      />
+                      <TextField
+                        name="newPassword"
+                        id='newPassword'
+                        variant="outlined"
+                        label="New Password"
+                        required
+                        fullWidth
+                        value={form.newPassword}
+                        onChange={handleChange}
+                      />
+                    </>
+                  }
+                  {
+                    !changePasswordClick ?
+                      <Button
+                        className={classes.buttonClear}
+                        variant="contained"
+                        color="primary"
+                        size="large"
+                        onClick={() => setChangePasswordClick(true)}
+                        fullWidth
+                      >
+                        Change Password
+                      </Button>
+                      :
+                      <Button
+                        className={classes.buttonClear}
+                        variant="contained"
+                        color="primary"
+                        size="large"
+                        onClick={changePassword}
+                        fullWidth
+                      >
+                        Submit
+                      </Button>
+                  }
                   <Button
                     className={classes.buttonClear}
                     variant="contained"

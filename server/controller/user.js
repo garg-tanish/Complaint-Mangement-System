@@ -18,7 +18,7 @@ export const signin = async (req, res) => {
     if (User) {
       const oldUser = await UserModal.findOne({ email });
       const token = jwt.sign({ email: oldUser.email, id: oldUser._id, department: oldUser.department }, secret, { expiresIn: "1h" });
-      await otpModel.updateOne({ email, otp, is_used: 'true' })
+      await otpModel.updateOne({ email, otp }, { is_used: 'true' })
       return res.status(200).json({
         message: "Sign In successfully",
         success: true,
@@ -109,7 +109,7 @@ export const signup = async (req, res) => {
       const hashedPassword = await bcrypt.hash(password, 12);
       const result = await UserModal.create({ email, password: hashedPassword, isAdmin, department, batch, name: `${firstName} ${lastName}` });
       const token = jwt.sign({ email: result.email, id: result._id, department: result.department }, secret, { expiresIn: "1h" });
-      await otpModel.updateOne({ email, otp, is_used: 'true' })
+      await otpModel.updateOne({ email, otp }, { is_used: 'true' })
       return res.status(200).json({
         message: "Sign Up successfully",
         success: true,
@@ -174,6 +174,34 @@ export const verifySignup = async (req, res) => {
       error: false,
       success: true
     })
+  } catch (error) {
+    res.status(500).json({
+      message: `Something went wrong ${error} `
+    });
+  }
+};
+
+export const changePassword = async (req, res) => {
+  const { email, password, newPassword } = req.body;
+
+  try {
+    const oldUser = await UserModal.findOne({ email });
+    const isPasswordCorrect = await bcrypt.compare(password, oldUser.password);
+
+    if (isPasswordCorrect) {
+      const hashedPassword = await bcrypt.hash(newPassword, 12);
+      await UserModal.updateOne({ email }, { password: hashedPassword });
+      return res.status(200).json({
+        message: "Password Changed successfully",
+        success: true,
+        error: false
+      });
+    }
+    res.status(200).json({
+      message: "Password Change unsuccessful",
+      success: false,
+      error: true
+    });
   } catch (error) {
     res.status(500).json({
       message: `Something went wrong ${error} `
