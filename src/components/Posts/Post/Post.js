@@ -1,7 +1,9 @@
 import React from "react";
 import moment from "moment";
 import useStyles from "./styles";
+import toast from "react-hot-toast";
 import Menu from "@material-ui/core/Menu";
+import * as api from '../../../api/index.js';
 import MenuItem from "@material-ui/core/MenuItem";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FeedbackIcon from '@material-ui/icons/Feedback';
@@ -103,18 +105,61 @@ const Post = ({ post }) => {
       state: status
     }));
     dispatch(updatePost(post._id, postData));
+    informUser(status);
     handleStateClose();
   };
 
-  const handleFeedbackClick = () => {
+  const handleFeedbackClick = async () => {
     const userFeedback = prompt('Enter Feedback Below...');
     setPostData((prevData) => ({
       ...prevData,
       feedback: userFeedback,
     }));
     dispatch(updatePost(post._id, postData));
+    try {
+      const emailData = {
+        email: `${user?.result?.email}`,
+        subject: `Feedback for ${post.title}.`,
+        content: `${userFeedback}`,
+        reciever: 'admin'
+      }
+      await api.SendEmail(emailData);
+    } catch (error) {
+      toast.error(error)
+    }
     handleClose();
   };
+
+  const informUser = async (status) => {
+    if (status === 'Resolved') {
+      const adminfeedback = prompt('Enter Feedback....')
+      try {
+        const emailData = {
+          email: `${user?.result?.email}`,
+          subject: `Your Complaint ${post.title} is Resolved`,
+          content: `${adminfeedback}`,
+          reciever: 'user'
+        }
+        await api.SendEmail(emailData);
+      } catch (error) {
+        toast.error(error)
+      }
+    }
+    else if (status === 'Dismissed') {
+      const adminfeedback = prompt('Enter the reason of dismissal....')
+      try {
+        const emailData = {
+          email: `${user?.result?.email}`,
+          subject: `Your Complaint ${post.title} is Dismissed`,
+          content: `${adminfeedback}`,
+          reciever: 'user'
+        }
+        await api.SendEmail(emailData);
+      } catch (error) {
+        toast.error(error)
+      }
+    }
+  }
 
   return (
     <Card className={classes.card}>

@@ -14,9 +14,26 @@ export const getPosts = () => async (dispatch) => {
 
 export const createPost = (post) => async (dispatch) => {
   try {
-    const { data } = await api.createPost(post);
-
-    dispatch({ type: CREATE, payload: data });
+    const response = await api.createPost(post);
+    const user = JSON.parse(localStorage.getItem("profile"));
+    const emailData = {
+      email: `${user?.result?.email}`,
+      subject: `New Complaint from ${user?.result?.name}`,
+      content: `${user?.result?.name} has a registered a complaint about ${post.title} saying the issue ${post.content}`,
+      reciever: 'both'
+    }
+    if (response.data.success) {
+      toast.success('Complaint registered.')
+      dispatch({ type: CREATE, payload: response.data.newPostMessage });
+      try {
+        await api.SendEmail(emailData)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    else {
+      toast.error('Unable to add Complaint.')
+    }
   } catch (error) {
     toast.error(error.message)
   }
