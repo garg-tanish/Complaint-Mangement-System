@@ -9,7 +9,7 @@ import {
   IconButton
 } from '@material-ui/core';
 
-const Input = ({ name, handleChange, label, autoFocus, type, handleShowPassword }) => (
+const Input = ({ name, handleChange, label, autoFocus, type, disabled, handleShowPassword }) => (
   <Grid item xs={12} sm={12}>
     <TextField
       name={name}
@@ -20,6 +20,7 @@ const Input = ({ name, handleChange, label, autoFocus, type, handleShowPassword 
       label={label}
       autoFocus={autoFocus}
       type={type}
+      disabled={disabled}
       InputProps={name === 'password' ? {
         endAdornment: (
           <InputAdornment position="end">

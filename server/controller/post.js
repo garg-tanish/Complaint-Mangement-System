@@ -28,7 +28,12 @@ export const createPost = async (req, res) => {
   const newPostMessage = new PostMessage({ ...post, creatorToken: req.userId });
   try {
     await newPostMessage.save();
-    res.status(201).json(newPostMessage);
+    res.status(201).json({
+      message: 'Post Created Successfully',
+      success: true,
+      error: false,
+      newPostMessage
+    });
   } catch (error) {
     res.status(409).json({ message: error.message });
   }

@@ -12,7 +12,7 @@ import {
   Grid,
   Typography,
   Container,
-  Grow
+  Grow,
 } from "@material-ui/core";
 
 import { useDispatch } from "react-redux";
@@ -40,6 +40,7 @@ const SignUp = ({ admin = false }) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const [otpSend, setOtpSend] = React.useState(false)
   const [otpSent, setOtpSent] = React.useState(false)
   const [form, setForm] = React.useState(initialState);
   const [isSignup, setIsSignup] = React.useState(admin);
@@ -100,6 +101,7 @@ const SignUp = ({ admin = false }) => {
 
   const send_otp = (e) => {
     e.preventDefault()
+    setOtpSend(true)
     if (isSignup) {
       if (form.password === form.confirmPassword) verifySignup()
       else toast.error('Password & Confirm password are not same.')
@@ -152,14 +154,14 @@ const SignUp = ({ admin = false }) => {
                             handleChange={handleChange}
                             autoFocus
                             required
-                            disabled={otpSent}
+                            disabled={otpSend}
                           />
                           <Input
                             name="lastName"
                             label="Last Name"
                             required
                             handleChange={handleChange}
-                            disabled={otpSent}
+                            disabled={otpSend}
                           />
                         </>
                       )}
@@ -169,7 +171,7 @@ const SignUp = ({ admin = false }) => {
                       handleChange={handleChange}
                       type="email"
                       required
-                      disabled={otpSent}
+                      disabled={otpSend}
                     />
                     <Input
                       name="password"
@@ -177,32 +179,32 @@ const SignUp = ({ admin = false }) => {
                       handleChange={handleChange}
                       type={showPassword ? "text" : "password"}
                       handleShowPassword={handleShowPassword}
-                      disabled={otpSent}
+                      disabled={otpSend}
                       required
                     />
                     {
                       isSignup && (
                         <>
                           <Input
+                            name="confirmPassword"
+                            label="Repeat Password"
+                            handleChange={handleChange}
+                            type="password"
+                            disabled={otpSend}
+                          />
+                          <Input
                             name="department"
                             label="Department"
                             handleChange={handleChange}
-                            disabled={otpSent}
+                            disabled={otpSend}
                             required
                           />
                           <Input
                             name="batch"
                             label="Batch"
                             handleChange={handleChange}
-                            disabled={otpSent}
+                            disabled={otpSend}
                             required
-                          />
-                          <Input
-                            name="confirmPassword"
-                            label="Repeat Password"
-                            handleChange={handleChange}
-                            type="password"
-                            disabled={otpSent}
                           />
                         </>
                       )}
@@ -219,32 +221,31 @@ const SignUp = ({ admin = false }) => {
                   </Grid>
 
                   {
-                    !otpSent && <Button
-                      fullWidth
-                      variant="contained"
-                      color="primary"
-                      className={classes.submit}
-                      onClick={send_otp}
-                      disabled={otpSent}
-                    >
-                      Send Otp
-                    </Button>
+                    !otpSend ?
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                        onClick={send_otp}
+                        disabled={otpSend}
+                      >
+                        {isSignup ? "Send Otp" : "Verify Credentials"}
+                      </Button>
+                      :
+                      <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                      >
+                        {isSignup ? "Sign Up" : "Sign In"}
+                      </Button>
                   }
 
                   {
-                    otpSent && <Button
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      color="primary"
-                      className={classes.submit}
-                    >
-                      {isSignup ? "Sign Up" : "Sign In"}
-                    </Button>
-                  }
-
-                  {
-                    !admin && !otpSent && (
+                    !admin && !otpSend && (
                       <>
                         <GoogleLogin
                           clientId='50161686094-c0803lbaoes45ce6l51ae9p5ees3sgfh.apps.googleusercontent.com'

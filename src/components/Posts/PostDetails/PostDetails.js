@@ -22,21 +22,30 @@ const PostDetails = () => {
       <Container>
         <Grid container justifyContent="center" alignItems="stretch">
           <Grid item xs={12} sm={8}>
-            {posts && (
-              <Grid item lg={12} sm={8}>
-                <Typography variant="h3" color="secondary" className={classes.title}>{post.title}</Typography>
-                <Typography variant="h6" color="primary" className={classes.creator}>{post.creator}</Typography>
-                <Typography variant="body2" className={classes.createdAt}>
-                  {moment(post.createAt).fromNow()}
-                </Typography>
-                <Typography variant="body2" className={classes.content}>
-                  {post.content}
-                </Typography>
-                <Typography variant="body2" className={classes.content}>
-                  {post.feedback}
-                </Typography>
-              </Grid>
-            )}
+            {
+              posts && (
+                <Grid item lg={12} sm={8}>
+                  <Typography variant="h3" color="secondary" className={classes.title}>{post.title}</Typography>
+                  <Typography variant="h6" color="primary" className={classes.creator}>{post.creator}</Typography>
+                  <Typography variant="body2" className={classes.createdAt}>
+                    {moment(post.createAt).fromNow()}
+                  </Typography>
+                  <Typography variant="body2" className={classes.content}>
+                    {post.content}
+                  </Typography>
+                  <Typography variant="body2" className={classes.content}>
+                    {post.feedback}
+                  </Typography>
+                  {
+                    post.selectedFile && (
+                      <img
+                        src={post.selectedFile}
+                        alt="Uploaded Preview"
+                        style={{ width: "300px", height: "auto", marginTop: "10px" }}
+                      />
+                    )}
+                </Grid>
+              )}
           </Grid>
         </Grid>
       </Container>

@@ -17,33 +17,33 @@ const Profile = () => {
   const classes = useStyles();
   const history = useHistory();
   const user = JSON.parse(localStorage.getItem("profile"));
+
+  const [isPending, setIsPending] = React.useState(false);
+  const [changePasswordClick, setChangePasswordClick] = React.useState(false)
   const [form, setForm] = React.useState({
     email: user?.result?.email,
     password: '',
     newPassword: ''
   })
 
-  const [changePasswordClick, setChangePasswordClick] = React.useState(false)
-
   const changePassword = async (e) => {
     e.preventDefault()
+    setIsPending(true)
     try {
       const response = await api.changePassword(form);
       if (response.data.success) {
         toast.success(response.data.message)
         history.push('/');
-        window.location.reload();
+        setIsPending(false)
       } else {
         toast.error(response.data.message)
         history.push('/');
-        window.location.reload();
       }
     } catch (error) {
       toast.error(error.message)
       history.push('/');
       window.location.reload();
     }
-
   }
 
   const close = (e) => {
@@ -117,9 +117,11 @@ const Profile = () => {
                         variant="outlined"
                         label="Password"
                         required
+                        autoFocus
                         fullWidth
                         value={form.password}
                         onChange={handleChange}
+                        disabled={isPending}
                       />
                       <TextField
                         name="newPassword"
@@ -130,6 +132,7 @@ const Profile = () => {
                         fullWidth
                         value={form.newPassword}
                         onChange={handleChange}
+                        disabled={isPending}
                       />
                     </>
                   }
@@ -154,7 +157,7 @@ const Profile = () => {
                         onClick={changePassword}
                         fullWidth
                       >
-                        Submit
+                        {isPending ? 'Submitting....' : 'Submit'}
                       </Button>
                   }
                   <Button

@@ -198,7 +198,7 @@ export const changePassword = async (req, res) => {
       });
     }
     res.status(200).json({
-      message: "Password Change unsuccessful",
+      message: "Enter valid password.",
       success: false,
       error: true
     });

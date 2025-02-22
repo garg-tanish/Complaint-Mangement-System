@@ -1,10 +1,10 @@
 import dotenv from 'dotenv';
-
+import nodemailer from 'nodemailer'
 dotenv.config({ path: '../../.env' });
 
 export const sendEmail = async (request, response) => {
   try {
-    const { email, subject, content } = request.body
+    const { email, subject, content, reciever } = request.body
 
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
@@ -18,13 +18,13 @@ export const sendEmail = async (request, response) => {
 
     await transporter.sendMail({
       from: process.env.GMAIL_EMAIL,
-      to: `${email}`,
+      to: `${reciever === 'admin' ? process.env.GMAIL_EMAIL : reciever === 'both' ? `${process.env.GMAIL_EMAIL},${email}` : email}`,
       subject: `${subject}`,
       text: `${content}`
     });
 
     return response.status(201).json({
-      message: `Response sent successfully.`,
+      message: `Email sent successfully.`,
       error: false,
       success: true
     })
