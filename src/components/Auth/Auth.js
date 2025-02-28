@@ -221,7 +221,7 @@ const SignUp = ({ admin = false }) => {
                   </Grid>
 
                   {
-                    !otpSend ?
+                    !otpSent ?
                       <Button
                         fullWidth
                         variant="contained"
