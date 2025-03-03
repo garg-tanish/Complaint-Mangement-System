@@ -39,9 +39,16 @@ const PostDetails = () => {
                   <Typography
                     variant="body2"
                     color="Secondary"
-                    className={classes.createdAt}
+                    className={classes.statusInfo}
                   >
                     {moment(post.createAt).fromNow()}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="Secondary"
+                    className={classes.statusInfo}
+                  >
+                    {post.state}...
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
@@ -50,26 +57,33 @@ const PostDetails = () => {
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
-                  <Typography variant="h6" className={classes.creator}>
-                    Registered By: {post.creator}
+                  <Typography variant="h6" className={classes.info}>
+                    {`Registered By: ${post.creator} (${post.department}, ${post.batch})`}
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
+                  <Typography variant="h6" className={classes.info}>
+                    {`Email ID: ${post.email}`}
+                  </Typography>
+                </Grid>
+                {
+                  post.feedback &&
+                  <Grid item xs={12}>
+                    <Typography variant="h6" className={classes.info} color="grey">
+                      Feedback on Complain action: {post.feedback}
+                    </Typography>
+                  </Grid>
+                }
+                <Grid item xs={12}>
                   <Typography
-                    variant="h3"
+                    variant="h4"
                     className={classes.content}
                   >
                     Description of Complain:
                   </Typography>
-                  <Typography variant="h4" >
+                  <Typography variant="h5" className={classes.info}>
                     {post.content}
                   </Typography>
-                  {
-                    post.feedback && (
-                      <Typography variant="body2" color="gray">
-                        Feedback: {post.feedback}
-                      </Typography>
-                    )}
                 </Grid>
                 {
                   post.selectedFile &&

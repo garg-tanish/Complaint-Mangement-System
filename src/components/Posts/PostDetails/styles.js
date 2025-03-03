@@ -5,27 +5,28 @@ export default makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     marginTop: '10px',
-    border: '2px solid black'
   },
   title: {
     marginTop: '20px',
+    marginBottom: '20px',
     textAlign: 'center',
   },
-  creator: {
+  info: {
     textAlign: 'center',
+    margin: '5px'
   },
-  createdAt: {
+  statusInfo: {
     marginTop: 8,
     textAlign: 'right'
   },
   content: {
     textAlign: 'center',
     padding: '25px',
-    marginTop: '25px',
-    marginBottom: '25px'
+    marginTop: '15px'
   },
   mediaButton: {
-    margin: 15
+    margin: 15,
+    float: 'right'
   },
   closeButton: {
     position: "absolute",
