@@ -1,9 +1,9 @@
 import React from 'react'
 import useStyles from "./styles";
 import toast from 'react-hot-toast';
+import Loader from '../Loader/Loader.js'
 import * as api from '../../api/index.js';
 
-import { useHistory } from "react-router-dom";
 import {
   TextField,
   Button,
@@ -12,13 +12,14 @@ import {
   Container,
   Paper
 } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 const Profile = () => {
   const classes = useStyles();
   const history = useHistory();
   const user = JSON.parse(localStorage.getItem("profile"));
 
-  const [isPending, setIsPending] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   const [changePasswordClick, setChangePasswordClick] = React.useState(false)
   const [form, setForm] = React.useState({
     email: user?.result?.email,
@@ -28,18 +29,23 @@ const Profile = () => {
 
   const changePassword = async (e) => {
     e.preventDefault()
-    setIsPending(true)
+    setLoading(true)
     try {
-      const response = await api.changePassword(form);
-      if (response.data.success) {
-        toast.success(response.data.message)
-        history.push('/');
-        setIsPending(false)
-      } else {
-        toast.error(response.data.message)
-        history.push('/');
+      if (form.password && form.newPassword) {
+        const response = await api.changePassword(form);
+        if (response.data.success) {
+          setLoading(false)
+          toast.success(response.data.message)
+          history.push('/');
+        } else {
+          setLoading(false)
+          toast.error(response.data.message)
+          history.push('/');
+        }
       }
+      else toast.error('Password is required.')
     } catch (error) {
+      setLoading(false)
       toast.error(error.message)
       history.push('/');
       window.location.reload();
@@ -55,128 +61,127 @@ const Profile = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
 
   return (
-    <Grow in>
-      <Container>
-        <Grid container justifyContent="center" alignItems="stretch">
-          <Grid item xs={12} sm={6}>
-            <Paper className={classes.paper}>
-              <form className={`${classes.root} ${classes.form}`}>
-                <Grid container spacing={2}>
-                  <TextField
-                    name="Name"
-                    variant="outlined"
-                    disabled
-                    fullWidth
-                    id="Name"
-                    label="Name"
-                    value={user?.result?.name}
-                  />
-                  <TextField
-                    variant="outlined"
-                    disabled
-                    fullWidth
-                    id="email"
-                    label="Email"
-                    name="email"
-                    value={user?.result?.email}
-                  />
-                  <TextField
-                    name="department"
-                    id='department'
-                    variant="outlined"
-                    label="Department"
-                    disabled
-                    fullWidth
-                    value={user?.result?.department}
-                  />
-                  <TextField
-                    name="batch"
-                    id='batch'
-                    variant="outlined"
-                    label="Batch"
-                    disabled
-                    fullWidth
-                    value={user?.result?.batch}
-                  />
-                  <TextField
-                    name="admin"
-                    id='admin'
-                    variant="outlined"
-                    label="Are You admin?"
-                    fullWidth
-                    disabled
-                    value={user?.result?.isAdmin}
-                  />
+    <div>
+      <Grow in>
+        <Container>
+          <Grid container justifyContent="center" alignItems="stretch">
+            <Grid item xs={12} sm={6}>
+              <Paper className={classes.paper}>
+                <form className={`${classes.root} ${classes.form}`}>
+                  <Grid container spacing={2}>
+                    <TextField
+                      id="name"
+                      name="name"
+                      label="Name"
+                      variant="outlined"
+                      value={user?.result?.name}
+                      disabled
+                      fullWidth
+                    />
+                    <TextField
+                      id="email"
+                      name="email"
+                      label="Email"
+                      variant="outlined"
+                      value={user?.result?.email}
+                      disabled
+                      fullWidth
+                    />
+                    {
+                      !user?.result?.isAdmin &&
+                      <>
+                        <TextField
+                          id='department'
+                          name="department"
+                          label="Department"
+                          variant="outlined"
+                          value={user?.result?.department}
+                          disabled
+                          fullWidth
+                        />
+                        <TextField
+                          id='batch'
+                          name="batch"
+                          label="Batch"
+                          variant="outlined"
+                          value={user?.result?.batch}
+                          disabled
+                          fullWidth
+                        />
+                      </>
+                    }
 
-                  {
-                    changePasswordClick &&
-                    <>
-                      <TextField
-                        name="password"
-                        id='password'
-                        variant="outlined"
-                        label="Password"
-                        required
-                        autoFocus
-                        fullWidth
-                        value={form.password}
-                        onChange={handleChange}
-                        disabled={isPending}
-                      />
-                      <TextField
-                        name="newPassword"
-                        id='newPassword'
-                        variant="outlined"
-                        label="New Password"
-                        required
-                        fullWidth
-                        value={form.newPassword}
-                        onChange={handleChange}
-                        disabled={isPending}
-                      />
-                    </>
-                  }
-                  {
-                    !changePasswordClick ?
-                      <Button
-                        className={classes.buttonClear}
-                        variant="contained"
-                        color="primary"
-                        size="large"
-                        onClick={() => setChangePasswordClick(true)}
-                        fullWidth
-                      >
-                        Change Password
-                      </Button>
-                      :
-                      <Button
-                        className={classes.buttonClear}
-                        variant="contained"
-                        color="primary"
-                        size="large"
-                        onClick={changePassword}
-                        fullWidth
-                      >
-                        {isPending ? 'Submitting....' : 'Submit'}
-                      </Button>
-                  }
-                  <Button
-                    className={classes.buttonClear}
-                    variant="contained"
-                    color="secondary"
-                    size="large"
-                    onClick={close}
-                    fullWidth
-                  >
-                    Close
-                  </Button>
-                </Grid>
-              </form>
-            </Paper>
+                    {
+                      changePasswordClick &&
+                      <>
+                        <TextField
+                          id='password'
+                          name="password"
+                          label="Password"
+                          variant="outlined"
+                          value={form.password}
+                          onChange={handleChange}
+                          required
+                          autoFocus
+                          fullWidth
+                        />
+                        <TextField
+                          id='newPassword'
+                          name="newPassword"
+                          variant="outlined"
+                          label="New Password"
+                          onChange={handleChange}
+                          value={form.newPassword}
+                          required
+                          fullWidth
+                        />
+                      </>
+                    }
+                    {
+                      !changePasswordClick ?
+                        <Button
+                          size="large"
+                          color="primary"
+                          variant="contained"
+                          className={classes.button}
+                          onClick={() => setChangePasswordClick(true)}
+                          fullWidth
+                        >
+                          Change Password
+                        </Button>
+                        :
+                        <Button
+                          size="large"
+                          color="primary"
+                          variant="contained"
+                          onClick={changePassword}
+                          className={classes.button}
+                          fullWidth
+                        >
+                          Submit
+                        </Button>
+                    }
+                    <Button
+                      size="large"
+                      color="secondary"
+                      variant="contained"
+                      onClick={close}
+                      className={classes.button}
+                      fullWidth
+                    >
+                      Close
+                    </Button>
+                  </Grid>
+                </form>
+              </Paper>
+            </Grid>
           </Grid>
-        </Grid>
-      </Container>
-    </Grow>
+        </Container>
+      </Grow>
+      {
+        loading && <Loader />
+      }
+    </div>
   )
 }
 

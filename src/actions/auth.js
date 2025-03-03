@@ -1,9 +1,9 @@
 import toast from 'react-hot-toast';
 import * as api from '../api/index.js';
+
 import { AUTH } from '../redux/actions/actionTypes.js';
 
 export const signin = (formData, router) => async (dispatch) => {
-
   try {
     const response = await api.signIn(formData);
     const result = response.data.result

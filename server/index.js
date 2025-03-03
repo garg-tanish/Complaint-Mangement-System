@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import postRoutes from './routes/post.js';
 import userRouter from "./routes/user.js";
+
 import { sendEmail } from './controller/sendEmail.js';
 import { changePassword } from './controller/user.js';
 

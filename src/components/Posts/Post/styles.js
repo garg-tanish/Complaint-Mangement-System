@@ -4,17 +4,17 @@ export default makeStyles({
   media: {
     height: 0,
     paddingTop: '56.25%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     backgroundBlendMode: 'darken',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   card: {
     display: 'flex',
+    position: 'relative',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    borderRadius: '15px',
-    height: '100%',
-    position: 'relative',
     top: '30px',
+    height: '100%',
+    borderRadius: '15px',
   },
   overlay: {
     position: 'absolute',
@@ -39,8 +39,8 @@ export default makeStyles({
     padding: '0 16px',
   },
   cardActions: {
-    padding: '0 16px 8px 16px',
     display: 'flex',
+    padding: '0 16px 8px 16px',
     justifyContent: 'space-between',
   },
 });

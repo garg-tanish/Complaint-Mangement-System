@@ -2,6 +2,7 @@ import React from 'react';
 import decode from 'jwt-decode';
 import useStyles from "./styles";
 import * as actionType from '../../redux/actions/actionTypes';
+
 import {
   AppBar,
   Toolbar,
@@ -16,13 +17,11 @@ import {
   useMediaQuery,
   Fab,
 } from "@material-ui/core";
-
 import { useDispatch } from 'react-redux';
-import { Menu, Close, KeyboardArrowUp } from "@material-ui/icons";
 import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Menu, Close, KeyboardArrowUp } from "@material-ui/icons";
 
 const Navbar = () => {
-
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -46,7 +45,8 @@ const Navbar = () => {
 
     if (token) {
       const decodedToken = decode(token);
-      if (decodedToken.exp * 1000 < new Date().getTime()) logout();
+      if (decodedToken.exp * 1000 < new Date().getTime())
+        logout();
     }
     setUser(JSON.parse(localStorage.getItem('profile')));
     // eslint-disable-next-line
@@ -64,87 +64,96 @@ const Navbar = () => {
     <>
       <AppBar position="static" className={classes.appBar}>
 
-        {user ?
-          <Toolbar>
-            <Link to="/user-profile" className={classes.link}>
-              <Avatar className={classes.avatar}>
-                {user?.result.name?.split(" ").map(word => word.charAt(0)).join("").toUpperCase() || "U"}
-              </Avatar>
-            </Link>
-            <Typography variant="h6" className={classes.title}>
-              {user?.result.name || "User Name"}
-            </Typography>
+        {
+          user ?
+            <Toolbar>
+              <Link to="/user-profile" className={classes.link}>
+                <Avatar className={classes.avatar}>
+                  {
+                    user?.result.name?.split(" ").map(word => word.charAt(0)).join("").toUpperCase() || "U"
+                  }
+                </Avatar>
+              </Link>
+              <Typography variant="h6" className={classes.title}>
+                {
+                  user?.result.name || "User Name"
+                }
+              </Typography>
 
-            {isMobile && (
-              <IconButton
-                edge="end"
-                className={classes.menuButton}
-                color="inherit"
-                onClick={() => setMobileOpen(true)}
-              >
-                <Menu />
-              </IconButton>
-            )}
-
-            {!isMobile ? (
-              <div className={classes.dashboard}>
-                <Link to="/dashboard" className={classes.link}>
-                  Dashboard
-                </Link>
-                <Link to="/" className={classes.link}>
-                  Home
-                </Link>
-                <Button
-                  variant="contained"
-                  className={classes.logout}
-                  color="secondary"
-                  onClick={logout}
+              {
+                isMobile &&
+                <IconButton
+                  edge="end"
+                  color="inherit"
+                  className={classes.menuButton}
+                  onClick={() => setMobileOpen(true)}
                 >
-                  Logout
-                </Button>
-              </div>
-            ) : (
-              <Drawer
-                anchor="right"
-                open={mobileOpen}
-                onClose={() => setMobileOpen(false)}
-              >
-                <List className={classes.drawer}>
-                  <div className={classes.closeButton}>
-                    <IconButton onClick={() => setMobileOpen(false)}>
-                      <Close />
-                    </IconButton>
+                  <Menu />
+                </IconButton>
+              }
+
+              {
+                !isMobile ?
+                  <div className={classes.dashboard}>
+                    <Link to="/dashboard" className={classes.link}>
+                      Dashboard
+                    </Link>
+                    <Link to="/" className={classes.link}>
+                      Home
+                    </Link>
+                    <Button
+                      color="secondary"
+                      variant="contained"
+                      onClick={logout}
+                      className={classes.logout}
+                    >
+                      Logout
+                    </Button>
                   </div>
-                  <ListItem button onClick={() => setMobileOpen(false)} component={Link} to="/dashboard">
-                    <ListItemText primary="Dashboard" />
-                  </ListItem>
-                  <ListItem button onClick={() => setMobileOpen(false)} component={Link} to="/">
-                    <ListItemText primary="Home" />
-                  </ListItem>
-                  <ListItem button onClick={logout}>
-                    <ListItemText primary="Logout" />
-                  </ListItem>
-                </List>
-              </Drawer>
-            )}
-          </Toolbar> :
-          <Toolbar>
-            <Typography variant="h6" className={classes.heading}>
-              Welcome To Complaint System
-            </Typography>
-          </Toolbar>
+                  :
+                  <Drawer
+                    anchor="right"
+                    open={mobileOpen}
+                    onClose={() => setMobileOpen(false)}
+                  >
+                    <List className={classes.drawer}>
+                      <div className={classes.closeButton}>
+                        <IconButton onClick={() => setMobileOpen(false)}>
+                          <Close />
+                        </IconButton>
+                      </div>
+                      <ListItem button onClick={() => setMobileOpen(false)} component={Link} to="/dashboard">
+                        <ListItemText primary="Dashboard" />
+                      </ListItem>
+                      <ListItem button onClick={() => setMobileOpen(false)} component={Link} to="/">
+                        <ListItemText primary="Home" />
+                      </ListItem>
+                      <ListItem button onClick={logout}>
+                        <ListItemText primary="Logout" />
+                      </ListItem>
+                    </List>
+                  </Drawer>
+              }
+            </Toolbar>
+            :
+            <Toolbar>
+              <Typography variant="h6" className={classes.heading}>
+                Welcome To Complaint System
+              </Typography>
+            </Toolbar>
         }
       </AppBar>
 
-      {showScroll && (
+      {
+        showScroll &&
         <Fab
-          className={classes.moveToTop}
           size="small"
+          className={classes.moveToTop}
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         >
           <KeyboardArrowUp />
         </Fab>
-      )}
+      }
     </>
   );
 };

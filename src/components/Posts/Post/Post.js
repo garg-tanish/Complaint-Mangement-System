@@ -2,15 +2,11 @@ import React from "react";
 import moment from "moment";
 import useStyles from "./styles";
 import toast from "react-hot-toast";
-import Menu from "@material-ui/core/Menu";
 import * as api from '../../../api/index.js';
-import MenuItem from "@material-ui/core/MenuItem";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FeedbackIcon from '@material-ui/icons/Feedback';
 import background from "../../../images/background.png";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import LowPriorityIcon from "@material-ui/icons/LowPriority";
 import PriorityHighIcon from "@material-ui/icons/PriorityHigh";
@@ -23,6 +19,10 @@ import {
   CardMedia,
   Button,
   Typography,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
 } from "@material-ui/core/";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -32,30 +32,22 @@ import { deletePost, updatePost } from "../../../actions/post";
 const Post = ({ post }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [stateMenu, setStateMenu] = React.useState(null);
   const [postData, setPostData] = React.useState({
-    priority: post.priority,
     state: post.state,
+    priority: post.priority,
     feedback: post.feedback
   });
 
-  const user = JSON.parse(localStorage.getItem("profile"));
+  const handleClose = () => setAnchorEl(null);
+  const handleStateClose = () => setStateMenu(null)
+  const handleClick = (event) => setAnchorEl(event.currentTarget);
+  const handleStateClick = (event) => setStateMenu(event.currentTarget);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleStateClick = (event) => {
-    setStateMenu(event.currentTarget);
-  };
-
-  const StyledMenu = withStyles({
-    paper: {
-      border: "1px solid #d3d4d5",
-    },
-  })((props) => (
+  const StyledMenu = withStyles()((props) => (
     <Menu
       elevation={0}
       getContentAnchorEl={null}
@@ -81,14 +73,6 @@ const Post = ({ post }) => {
       },
     },
   }))(MenuItem);
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleStateClose = () => {
-    setStateMenu(null);
-  };
 
   const handlePriority = (noPriority) => {
     setPostData((prevData) => ({
@@ -165,13 +149,15 @@ const Post = ({ post }) => {
     <Card className={classes.card}>
       <Link to={`/details/${post._id}`}>
         <CardMedia
-          className={classes.media}
           image={background}
           title={post.title}
+          className={classes.media}
         />
       </Link>
       <div className={classes.overlay}>
-        <Typography variant="h6">{post.creator}</Typography>
+        <Typography variant="h6">
+          {post.creator}
+        </Typography>
         <Typography variant="body2">
           {moment(post.createAt).fromNow()}
         </Typography>
@@ -180,31 +166,33 @@ const Post = ({ post }) => {
         </Typography>
       </div>
       <div className={classes.overlay2}>
-        {(post.email === user.result.email && postData.state === 'Pending') &&
+        {
+          (post.email === user.result.email && postData.state === 'Pending') &&
           <Button
-            color="secondary"
             size="small"
+            color="secondary"
             onClick={() => dispatch(deletePost(post._id))}
           >
             <DeleteIcon fontSize="medium" />
-          </Button>}
+          </Button>
+        }
       </div>
       <Typography
-        className={classes.details}
-        gutterBottom
         variant="h5"
         component="h2"
+        className={classes.details}
+        gutterBottom
       >
         Title: {post.title}
       </Typography>
       <CardActions className={classes.cardActions}>
         {
-          (user.result.isAdmin) &&
+          user.result.isAdmin &&
           <Button
-            aria-controls="customized-menu"
-            aria-haspopup="true"
-            variant="contained"
             color="primary"
+            variant="contained"
+            aria-haspopup="true"
+            aria-controls="customized-menu"
             onClick={handleClick}
             fullWidth
           >
@@ -221,9 +209,9 @@ const Post = ({ post }) => {
         <StyledMenu
           id="customized-menu"
           anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
           onClose={handleClose}
+          open={Boolean(anchorEl)}
+          keepMounted
         >
           <StyledMenuItem onClick={() => handlePriority(2)}>
             <ListItemIcon>
@@ -246,12 +234,12 @@ const Post = ({ post }) => {
         </StyledMenu>
 
         <Button
-          aria-controls="status-menu"
-          aria-haspopup="true"
-          variant="contained"
           color="secondary"
-          disabled={!user.result.isAdmin}
+          variant="contained"
+          aria-haspopup="true"
+          aria-controls="status-menu"
           onClick={handleStateClick}
+          disabled={!user.result.isAdmin}
           fullWidth
         >
           {postData.state}
@@ -269,9 +257,9 @@ const Post = ({ post }) => {
         <StyledMenu
           id="status-menu"
           anchorEl={stateMenu}
-          keepMounted
           open={Boolean(stateMenu)}
           onClose={handleStateClose}
+          keepMounted
         >
           <StyledMenuItem onClick={() => handleState("Resolved")}>
             <ListItemIcon>

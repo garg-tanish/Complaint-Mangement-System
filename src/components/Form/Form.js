@@ -1,6 +1,7 @@
 import React from "react";
 import useStyles from "./styles";
 import FileBase from "react-file-base64";
+
 import {
   TextField,
   Button,
@@ -10,13 +11,11 @@ import {
   Container,
   Grow,
 } from "@material-ui/core";
-
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { createPost } from "../../actions/post";
 
 const Form = ({ setCurrentId }) => {
-
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -24,12 +23,12 @@ const Form = ({ setCurrentId }) => {
 
   const [isPending, setIsPending] = React.useState(false);
   const [postData, setPostData] = React.useState({
-    creator: user?.result?.name,
-    email: user?.result?.email,
     title: "",
     content: "",
-    batch: user?.result?.batch,
     selectedFile: "",
+    email: user?.result?.email,
+    batch: user?.result?.batch,
+    creator: user?.result?.name,
     department: user?.result?.department,
   });
 
@@ -44,13 +43,13 @@ const Form = ({ setCurrentId }) => {
   const clear = () => {
     setCurrentId(0);
     setPostData({
-      creator: "",
       email: "",
       title: "",
-      content: "",
       batch: "",
-      selectedFile: "",
+      creator: "",
+      content: "",
       department: "",
+      selectedFile: "",
     });
     setIsPending(false);
   };
@@ -63,8 +62,8 @@ const Form = ({ setCurrentId }) => {
             <Paper className={classes.paper}>
               <form
                 autoComplete="off"
-                className={`${classes.root} ${classes.form}`}
                 onSubmit={handleSubmit}
+                className={`${classes.root} ${classes.form}`}
               >
                 <Typography
                   variant="h4"
@@ -75,71 +74,66 @@ const Form = ({ setCurrentId }) => {
                 </Typography>
                 <Grid container spacing={2}>
                   <TextField
-                    autoComplete="fname"
+                    id="firstName"
                     name="firstName"
                     variant="outlined"
-                    disabled
-                    fullWidth
-                    id="firstName"
                     label="First Name"
                     value={postData.creator}
-                  />
-                  <TextField
-                    variant="outlined"
                     disabled
                     fullWidth
+                  />
+                  <TextField
                     id="email"
-                    label="Email"
                     name="email"
+                    label="Email"
+                    variant="outlined"
                     value={postData.email}
-                    autoComplete="email"
+                    disabled
+                    fullWidth
                   />
                   <TextField
-                    name="department"
                     id="department"
-                    disabled
-                    variant="outlined"
+                    name="department"
                     label="Department"
-                    fullWidth
-                    autoComplete="department"
+                    variant="outlined"
                     value={postData.department}
+                    disabled
+                    fullWidth
                   />
                   <TextField
-                    name="batch"
                     id="batch"
-                    disabled
-                    variant="outlined"
+                    name="batch"
                     label="Batch"
-                    fullWidth
-                    autoComplete="batch"
+                    variant="outlined"
                     value={postData.batch}
+                    disabled
+                    fullWidth
                   />
                   <TextField
                     name="title"
-                    required
-                    variant="outlined"
                     label="Title"
-                    fullWidth
-                    autoFocus
-                    autoComplete="title"
+                    variant="outlined"
                     value={postData.title}
                     onChange={(e) =>
                       setPostData({ ...postData, title: e.target.value })
                     }
+                    required
+                    fullWidth
+                    autoFocus
                   />
 
                   <TextField
                     name="message"
-                    required
                     variant="outlined"
                     label="Describe problem or reason for Complaint"
-                    fullWidth
-                    multiline
                     minRows={5}
                     value={postData.content}
                     onChange={(e) =>
                       setPostData({ ...postData, content: e.target.value })
                     }
+                    required
+                    fullWidth
+                    multiline
                   />
                   <div className={classes.fileInput}>
                     <FileBase
@@ -151,22 +145,22 @@ const Form = ({ setCurrentId }) => {
                     />
                   </div>
                   <Button
-                    className={classes.buttonSubmit}
-                    variant="contained"
-                    color="primary"
                     size="large"
-                    disabled={isPending}
                     type="submit"
+                    color="primary"
+                    variant="contained"
+                    disabled={isPending}
+                    className={classes.buttonSubmit}
                     fullWidth
                   >
                     {isPending ? "Submitting.." : "Submit"}
                   </Button>
                   <Button
-                    className={classes.buttonClear}
-                    variant="contained"
-                    color="secondary"
                     size="large"
+                    color="secondary"
+                    variant="contained"
                     onClick={clear}
+                    className={classes.buttonClear}
                     fullWidth
                   >
                     Clear

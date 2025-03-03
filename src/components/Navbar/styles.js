@@ -18,13 +18,13 @@ export default makeStyles((theme) => ({
   },
   dashboard: {
     display: "flex",
-    gap: "20px",
     alignItems: "center",
+    gap: "20px",
   },
   link: {
     color: "white",
-    textDecoration: "none",
     fontWeight: "bold",
+    textDecoration: "none",
   },
   logout: {
     marginLeft: "20px",
@@ -42,10 +42,10 @@ export default makeStyles((theme) => ({
   },
   moveToTop: {
     position: "fixed",
-    bottom: "20px",
     right: "20px",
-    backgroundColor: "#f50057",
-    color: "white",
     zIndex: 1000,
+    bottom: "20px",
+    color: "white",
+    backgroundColor: "#f50057",
   },
 }));

@@ -75,7 +75,7 @@ export const verifySignin = async (req, res) => {
       from: process.env.GMAIL_EMAIL,
       to: `${email}`,
       subject: "Otp for Complaint System",
-      text: `Your otp is ${otp}. Kindly fill this to continue further.`
+      text: `Your otp is ${otp}. Kindly fill this to continue.`
     });
 
     const payload = { email, otp, is_used: "false" }

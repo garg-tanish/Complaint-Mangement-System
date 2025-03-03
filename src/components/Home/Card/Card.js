@@ -18,13 +18,15 @@ const CardItem = ({ title, link }) => {
     <Card className={classes.card}>
       <Link to={link}>
         <CardMedia
-          className={classes.media}
-          image={background}
           title={title}
+          image={background}
+          className={classes.media}
         />
       </Link>
       <div className={classes.overlay}>
-        <Typography variant="h6">{title}</Typography>
+        <Typography variant="h6">
+          {title}
+        </Typography>
       </div>
       <CardActions className={classes.cardActions}>
         <Link to={link}>
