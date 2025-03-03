@@ -19,8 +19,14 @@ export const createPost = (post) => async (dispatch) => {
     const user = JSON.parse(localStorage.getItem("profile"));
     const emailData = {
       email: `${user?.result?.email}`,
-      subject: `New Complaint from ${user?.result?.name}`,
-      content: `${user?.result?.name} has a registered a complaint about ${post.title} saying the issue ${post.content}`,
+      subject: 'New Complaint Registered',
+      content: `👤 User Name: ${user?.result?.name}
+      📧 Email: ${post.email}
+      🏢 Department: ${post.department}
+      🎓 Batch: ${post.batch}
+      📌 Complaint Title: ${post.title}
+      📝 Issue Description: ${post.content}
+      `,
       reciever: 'both'
     }
     if (response.data.success) {
