@@ -23,12 +23,14 @@ export default makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    fontSize: '16px',
+    textTransform: 'none',
   },
-  googleButton: {
-    marginBottom: theme.spacing(2),
-  },
-  Administrator: {
-    margin: '15px',
-    fontWeight: 'bold',
+  switchButton: {
+    textTransform: 'none',
+    fontSize: '15px',
+    '&:hover': {
+      color: 'blue',
+    }
   }
 }));
