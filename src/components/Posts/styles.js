@@ -7,14 +7,16 @@ export default makeStyles(() => ({
     justifyContent: 'center',
   },
   notFound: {
-    width: '300px',
-    height: '100%',
-    margin: '33.3%',
-    textAlign: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    height: '70vh'
   },
   filterButton: {
     margin: 5,
-    float: 'right'
+    float: 'right',
+    cursor: 'pointer'
   },
   drawer: {
     width: 250,

@@ -2,20 +2,20 @@ import React from 'react';
 import decode from 'jwt-decode';
 import useStyles from "./styles";
 import * as actionType from '../../redux/actions/actionTypes';
+import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 
 import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Avatar,
-  Typography,
-  Button,
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
-  useMediaQuery,
   Fab,
+  List,
+  AppBar,
+  Avatar,
+  Drawer,
+  Toolbar,
+  ListItem,
+  IconButton,
+  Typography,
+  ListItemText,
+  useMediaQuery
 } from "@material-ui/core";
 import { useDispatch } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
@@ -31,6 +31,12 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [showScroll, setShowScroll] = React.useState(false);
   const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('profile')));
+
+  const confirmLogout = () => {
+    const confirmation = window.confirm('Are you sure to logout?')
+    if (confirmation) logout()
+    else return
+  }
 
   const logout = () => {
     dispatch({ type: actionType.LOGOUT });
@@ -67,7 +73,7 @@ const Navbar = () => {
         {
           user ?
             <Toolbar>
-              <Link to="/user-profile" className={classes.link}>
+              <Link to="/user-profile" style={{ fontSize: 20, textDecoration: 'none' }}>
                 <Avatar className={classes.avatar}>
                   {
                     user?.result.name?.split(" ").map(word => word.charAt(0)).join("").toUpperCase() || "U"
@@ -95,20 +101,18 @@ const Navbar = () => {
               {
                 !isMobile ?
                   <div className={classes.dashboard}>
-                    <Link to="/dashboard" className={classes.link}>
-                      Dashboard
-                    </Link>
                     <Link to="/" className={classes.link}>
                       Home
                     </Link>
-                    <Button
-                      color="secondary"
-                      variant="contained"
-                      onClick={logout}
+                    <Link to="/dashboard" className={classes.link}>
+                      Dashboard
+                    </Link>
+                    <ExitToAppRoundedIcon
+                      fontSize='large'
+                      color='secondary'
+                      onClick={confirmLogout}
                       className={classes.logout}
-                    >
-                      Logout
-                    </Button>
+                    />
                   </div>
                   :
                   <Drawer
@@ -122,11 +126,11 @@ const Navbar = () => {
                           <Close />
                         </IconButton>
                       </div>
-                      <ListItem button onClick={() => setMobileOpen(false)} component={Link} to="/dashboard">
-                        <ListItemText primary="Dashboard" />
-                      </ListItem>
                       <ListItem button onClick={() => setMobileOpen(false)} component={Link} to="/">
                         <ListItemText primary="Home" />
+                      </ListItem>
+                      <ListItem button onClick={() => setMobileOpen(false)} component={Link} to="/dashboard">
+                        <ListItemText primary="Dashboard" />
                       </ListItem>
                       <ListItem button onClick={logout}>
                         <ListItemText primary="Logout" />

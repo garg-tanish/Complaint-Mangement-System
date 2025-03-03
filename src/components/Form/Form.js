@@ -3,13 +3,13 @@ import useStyles from "./styles";
 import FileBase from "react-file-base64";
 
 import {
-  TextField,
-  Button,
-  Typography,
-  Paper,
-  Grid,
-  Container,
   Grow,
+  Grid,
+  Paper,
+  Button,
+  TextField,
+  Container,
+  Typography
 } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -37,7 +37,7 @@ const Form = ({ setCurrentId }) => {
     setIsPending(true);
     dispatch(createPost(postData));
     clear();
-    history.push("/dashboard");
+    history.push("/");
   };
 
   const clear = () => {
@@ -70,7 +70,7 @@ const Form = ({ setCurrentId }) => {
                   color="secondary"
                   className={classes.header}
                 >
-                  Create a Compliant Report
+                  Register new Compliant
                 </Typography>
                 <Grid container spacing={2}>
                   <TextField
@@ -125,7 +125,7 @@ const Form = ({ setCurrentId }) => {
                   <TextField
                     name="message"
                     variant="outlined"
-                    label="Describe problem or reason for Complaint"
+                    label="Describe problem"
                     minRows={5}
                     value={postData.content}
                     onChange={(e) =>

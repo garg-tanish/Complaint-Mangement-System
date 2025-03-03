@@ -119,7 +119,6 @@ const SignUp = () => {
   }
 
   const verifySignin = async (e) => {
-    debugger;
     e.preventDefault()
     setLoading(true)
     try {
@@ -175,12 +174,14 @@ const SignUp = () => {
                             <Input
                               name="firstName"
                               label="First Name"
+                              disabled={otpSent}
                               handleChange={handleChange}
                               autoFocus
                             />
                             <Input
                               name="lastName"
                               label="Last Name"
+                              disabled={otpSent}
                               handleChange={handleChange}
                             />
                           </>
@@ -189,12 +190,14 @@ const SignUp = () => {
                         type="email"
                         name="email"
                         label="Email Address"
+                        disabled={otpSent}
                         autoFocus={!isSignup}
                         handleChange={handleChange}
                       />
                       <Input
                         name="password"
                         label="Password"
+                        disabled={otpSent}
                         handleChange={handleChange}
                         handleShowPassword={handleShowPassword}
                         type={showPassword ? "text" : "password"}
@@ -205,11 +208,13 @@ const SignUp = () => {
                             <Input
                               name="department"
                               label="Department"
+                              disabled={otpSent}
                               handleChange={handleChange}
                             />
                             <Input
                               name="batch"
                               label="Batch"
+                              disabled={otpSent}
                               handleChange={handleChange}
                             />
                           </>

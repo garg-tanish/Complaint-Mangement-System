@@ -23,11 +23,14 @@ export default makeStyles((theme) => ({
   },
   link: {
     color: "white",
-    fontWeight: "bold",
+    fontSize: 20,
     textDecoration: "none",
+    '&:hover': {
+      textDecoration: 'underline'
+    }
   },
   logout: {
-    marginLeft: "20px",
+    cursor: 'pointer'
   },
   avatar: {
     backgroundColor: "#f40057",
