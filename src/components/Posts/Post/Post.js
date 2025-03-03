@@ -26,12 +26,14 @@ import {
 } from "@material-ui/core/";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import { deletePost, updatePost } from "../../../actions/post";
 
 const Post = ({ post }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory()
   const user = JSON.parse(localStorage.getItem("profile"));
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -46,6 +48,17 @@ const Post = ({ post }) => {
   const handleStateClose = () => setStateMenu(null)
   const handleClick = (event) => setAnchorEl(event.currentTarget);
   const handleStateClick = (event) => setStateMenu(event.currentTarget);
+
+  const handleDeleteClick = () => {
+    const deleteConfirm = window.confirm(`Are you sure to this Complaint (${post.title})`)
+    if (deleteConfirm) {
+      dispatch(deletePost(post._id))
+      toast.success('Deleted Successfully')
+      history.push('/')
+      window.location.reload()
+    }
+    else return
+  }
 
   const StyledMenu = withStyles()((props) => (
     <Menu
@@ -171,7 +184,7 @@ const Post = ({ post }) => {
           <Button
             size="small"
             color="secondary"
-            onClick={() => dispatch(deletePost(post._id))}
+            onClick={handleDeleteClick}
           >
             <DeleteIcon fontSize="medium" />
           </Button>
