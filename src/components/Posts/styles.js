@@ -9,7 +9,19 @@ export default makeStyles(() => ({
   notFound: {
     width: '300px',
     height: '100%',
-    textAlign: 'center',
     margin: '33.3%',
+    textAlign: 'center',
   },
+  filterButton: {
+    margin: 5,
+    float: 'right'
+  },
+  drawer: {
+    width: 250,
+  },
+  closeButton: {
+    padding: "10px",
+    display: "flex",
+    justifyContent: "flex-end"
+  }
 }));
