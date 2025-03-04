@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer'
+
 dotenv.config({ path: '../../.env' });
 
 export const sendEmail = async (request, response) => {
@@ -9,7 +10,7 @@ export const sendEmail = async (request, response) => {
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 465,
-      secure: true, // false for other ports like 587
+      secure: true,
       auth: {
         user: process.env.GMAIL_EMAIL,
         pass: process.env.GMAIL_PASSWORD,
@@ -24,9 +25,9 @@ export const sendEmail = async (request, response) => {
     });
 
     return response.status(201).json({
-      message: `Email sent successfully.`,
       error: false,
-      success: true
+      success: true,
+      message: `Email sent successfully.`
     })
 
   } catch (error) {

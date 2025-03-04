@@ -6,8 +6,8 @@ import { AUTH } from '../redux/actions/actionTypes.js';
 export const signin = (formData, router) => async (dispatch) => {
   try {
     const response = await api.signIn(formData);
-    const result = response.data.result
     const token = response.data.token
+    const result = response.data.result
     if (response.data.success) {
       toast.success(response.data.message)
       await dispatch({ type: AUTH, data: { result, token } });
@@ -28,8 +28,8 @@ export const signin = (formData, router) => async (dispatch) => {
 export const signup = (formData, router) => async (dispatch) => {
   try {
     const response = await api.signUp(formData);
-    const result = response.data.result
     const token = response.data.token
+    const result = response.data.result
     if (response.data.success) {
       toast.success(response.data.message)
       await dispatch({ type: AUTH, data: { result, token } });

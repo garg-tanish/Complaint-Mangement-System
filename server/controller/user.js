@@ -19,18 +19,19 @@ export const signin = async (req, res) => {
       const oldUser = await UserModal.findOne({ email });
       const token = jwt.sign({ email: oldUser.email, id: oldUser._id, department: oldUser.department }, secret, { expiresIn: "1h" });
       await otpModel.updateOne({ email, otp }, { is_used: 'true' })
+
       return res.status(200).json({
-        message: "Sign In successfully",
-        success: true,
+        token,
         error: false,
+        success: true,
         result: oldUser,
-        token
+        message: "Sign In successfully"
       });
     }
     res.status(200).json({
-      message: "Sign In unsuccessful",
+      error: true,
       success: false,
-      error: true
+      message: "Sign In unsuccessful"
     });
   } catch (err) {
     res.status(500).json({
@@ -46,17 +47,17 @@ export const verifySignin = async (req, res) => {
     const oldUser = await UserModal.findOne({ email });
 
     if (!oldUser) return res.status(200).json({
-      message: "User doesn't exist",
+      error: true,
       success: false,
-      error: true
+      message: "User doesn't exist"
     });
 
     const isPasswordCorrect = await bcrypt.compare(password, oldUser.password);
 
     if (!isPasswordCorrect) return res.status(200).json({
-      message: "Invalid credentials",
+      error: true,
       success: false,
-      error: true
+      message: "Invalid credentials"
     });
 
     const otp = crypto.randomInt(1000, 9999);
@@ -64,7 +65,7 @@ export const verifySignin = async (req, res) => {
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 465,
-      secure: true, // false for other ports like 587
+      secure: true,
       auth: {
         user: process.env.GMAIL_EMAIL,
         pass: process.env.GMAIL_PASSWORD,
@@ -88,9 +89,9 @@ export const verifySignin = async (req, res) => {
     }
 
     return res.status(201).json({
-      message: `Otp Sent to ${email}`,
       error: false,
-      success: true
+      success: true,
+      message: `Otp Sent to ${email}`
     })
   } catch (err) {
     res.status(500).json({
@@ -110,18 +111,19 @@ export const signup = async (req, res) => {
       const result = await UserModal.create({ email, password: hashedPassword, isAdmin, department, batch, name: `${firstName} ${lastName}` });
       const token = jwt.sign({ email: result.email, id: result._id, department: result.department }, secret, { expiresIn: "1h" });
       await otpModel.updateOne({ email, otp }, { is_used: 'true' })
+
       return res.status(200).json({
-        message: "Sign Up successfully",
-        success: true,
-        error: false,
+        token,
         result,
-        token
+        error: false,
+        success: true,
+        message: "Sign Up successfully"
       });
     }
     res.status(200).json({
-      message: "Sign Up unsuccessful",
+      error: true,
       success: false,
-      error: true
+      message: "Sign Up unsuccessful"
     });
   } catch (error) {
     res.status(500).json({
@@ -137,16 +139,16 @@ export const verifySignup = async (req, res) => {
     const oldUser = await UserModal.findOne({ email });
 
     if (oldUser) return res.status(400).json({
-      message: "User already exists",
+      error: true,
       success: false,
-      error: true
+      message: "User already exists"
     });
     const otp = crypto.randomInt(1000, 9999);
 
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 465,
-      secure: true, // false for other ports like 587
+      secure: true,
       auth: {
         user: process.env.GMAIL_EMAIL,
         pass: process.env.GMAIL_PASSWORD,
@@ -170,9 +172,9 @@ export const verifySignup = async (req, res) => {
     }
 
     return res.status(201).json({
-      message: `Otp Sent to ${email}`,
       error: false,
-      success: true
+      success: true,
+      message: `Otp Sent to ${email}`
     })
   } catch (error) {
     res.status(500).json({
@@ -191,16 +193,18 @@ export const changePassword = async (req, res) => {
     if (isPasswordCorrect) {
       const hashedPassword = await bcrypt.hash(newPassword, 12);
       await UserModal.updateOne({ email }, { password: hashedPassword });
+
+
       return res.status(200).json({
-        message: "Password Changed successfully",
+        error: false,
         success: true,
-        error: false
+        message: "Password Changed successfully"
       });
     }
     res.status(200).json({
-      message: "Enter valid password.",
+      error: true,
       success: false,
-      error: true
+      message: "Enter valid password."
     });
   } catch (error) {
     res.status(500).json({

@@ -9,7 +9,9 @@ export const getPosts = async (req, res) => {
     const postMessages = await PostMessage.find();
     res.status(200).json(postMessages);
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.status(404).json({
+      message: error.message
+    });
   }
 };
 
@@ -19,7 +21,9 @@ export const getPost = async (req, res) => {
     const post = await PostMessage.findById(id);
     res.status(200).json(post);
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.status(404).json({
+      message: error.message
+    });
   }
 };
 
@@ -29,13 +33,15 @@ export const createPost = async (req, res) => {
   try {
     await newPostMessage.save();
     res.status(201).json({
-      message: 'Post Created Successfully',
-      success: true,
       error: false,
-      newPostMessage
+      success: true,
+      newPostMessage,
+      message: 'Post Created Successfully'
     });
   } catch (error) {
-    res.status(409).json({ message: error.message });
+    res.status(409).json({
+      message: error.message
+    });
   }
 };
 
@@ -59,7 +65,9 @@ export const deletePost = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
 
   await PostMessage.findByIdAndRemove(id);
-  res.json({ message: "Post deleted successfully." });
+  res.json({
+    message: "Post deleted successfully."
+  });
 };
 
 export default router;

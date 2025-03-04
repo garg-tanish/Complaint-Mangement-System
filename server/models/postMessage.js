@@ -1,32 +1,31 @@
 import mongoose from 'mongoose';
 
 const postSchema = mongoose.Schema({
-    creator: String,
-    creatorToken: String,
     email: String,
     title: String,
+    batch: String,
+    creator: String,
     content: String,
     department: String,
-    batch: String,
+    creatorToken: String,
     selectedFile: String,
-    createAt: {
-        type: Date,
-        default: new Date()
-    },
-    state: {
+    feedback: {
         type: String,
-        default: 'Pending'
+        default: ''
     },
     priority: {
         type: Number,
         default: 0
     },
-    feedback: {
+    state: {
         type: String,
-        default: ''
+        default: 'Pending'
+    },
+    createAt: {
+        type: Date,
+        default: new Date()
     }
 });
 
 const PostMessage = mongoose.model('PostMessage', postSchema);
-
 export default PostMessage;
