@@ -12,11 +12,21 @@ import {
   Switch,
   Route
 } from "react-router-dom";
+import { useDispatch } from 'react-redux';
 import { Toaster } from 'react-hot-toast';
+import { getPosts } from "./actions/post.js";
 
 const App = () => {
+  const dispatch = useDispatch();
+
   const [currentId, setCurrentId] = React.useState(0);
   const user = JSON.parse(localStorage.getItem("profile"));
+
+  React.useEffect(() => {
+    if (user) {
+      dispatch(getPosts());
+    }
+  }, [currentId, dispatch]);
 
   return (
     <>
@@ -29,7 +39,7 @@ const App = () => {
             user &&
             <>
               <Route exact path="/">
-                <Home currentId={currentId} />
+                <Home />
               </Route>
               <Route exact path="/details/:id">
                 <PostDetails />
