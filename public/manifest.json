@@ -2,9 +2,9 @@
   "short_name": "CMS",
   "name": "Complaint Management System",
   "icon": {
-    "src": "favicon.png",
+    "size": "512x512",
     "type": "image/png",
-    "size": "512x512"
+    "src": "favicon.png"
   },
   "start_url": ".",
   "display": "standalone",
