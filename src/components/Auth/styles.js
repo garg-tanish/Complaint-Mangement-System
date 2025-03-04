@@ -2,11 +2,11 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(4),
     display: 'flex',
-    flexDirection: 'column',
     alignItems: 'center',
+    flexDirection: 'column',
     padding: theme.spacing(2),
+    marginTop: theme.spacing(4)
   },
   root: {
     '& .MuiTextField-root': {
@@ -22,13 +22,13 @@ export default makeStyles((theme) => ({
     marginTop: theme.spacing(3),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
     fontSize: '16px',
     textTransform: 'none',
+    margin: theme.spacing(3, 0, 2)
   },
   switchButton: {
-    textTransform: 'none',
     fontSize: '15px',
+    textTransform: 'none',
     '&:hover': {
       color: 'blue',
     }

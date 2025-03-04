@@ -4,17 +4,17 @@ export default makeStyles({
   media: {
     height: 0,
     paddingTop: '35.25%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     backgroundBlendMode: 'darken',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
   },
   card: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    borderRadius: '15px',
-    height: '100%',
-    position: 'relative',
     top: '30px',
+    height: '100%',
+    borderRadius: '15px',
+    position: 'relative'
   },
   overlay: {
     position: 'absolute',
@@ -23,16 +23,16 @@ export default makeStyles({
     color: 'white',
   },
   cardActions: {
-    padding: '0 16px 8px 16px',
     display: 'flex',
     justifyContent: 'space-between',
     marginTop: '25px',
+    padding: '0 16px 8px 16px'
   },
   AddIcon: {
-    backgroundColor: '#ff8c00',
     color: 'white',
+    backgroundColor: '#ff8c00',
     '&:hover': {
       backgroundColor: 'rgb(255,239,0)',
-    },
+    }
   }
 });

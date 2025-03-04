@@ -149,7 +149,9 @@ const Form = ({ setCurrentId }) => {
                     className={classes.button}
                     fullWidth
                   >
-                    {isPending ? "Submitting.." : "Submit"}
+                    {
+                      isPending ? "Submitting.." : "Submit"
+                    }
                   </Button>
                   <Button
                     size="medium"

@@ -4,10 +4,10 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 import {
   Card,
-  CardActions,
   CardMedia,
   Typography,
   IconButton,
+  CardActions
 } from "@material-ui/core/";
 import { Link } from "react-router-dom";
 
@@ -25,7 +25,9 @@ const CardItem = ({ title, link }) => {
       </Link>
       <div className={classes.overlay}>
         <Typography variant="h6">
-          {title}
+          {
+            title
+          }
         </Typography>
       </div>
       <CardActions className={classes.cardActions}>

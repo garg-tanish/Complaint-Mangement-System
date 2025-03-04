@@ -7,25 +7,25 @@ import * as api from '../../api/index.js';
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 
 import {
+  Grid,
+  Grow,
+  Paper,
   Avatar,
   Button,
-  Paper,
-  Grid,
-  Typography,
   Container,
-  Grow,
+  Typography
 } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { signin, signup } from "../../actions/auth";
 
 let initialState = {
-  email: '',
-  firstName: '',
-  lastName: '',
-  password: '',
   otp: '',
+  email: '',
   batch: '',
+  password: '',
+  lastName: '',
+  firstName: '',
   department: '',
   isAdmin: false
 };
