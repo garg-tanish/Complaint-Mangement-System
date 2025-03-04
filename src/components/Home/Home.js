@@ -7,17 +7,10 @@ import {
   Grow,
   Container
 } from "@material-ui/core";
-import { useDispatch } from "react-redux";
-import { getPosts } from "../../actions/post.js";
 
-const Home = ({ currentId }) => {
+const Home = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));
-
-  React.useEffect(() => {
-    dispatch(getPosts());
-  }, [currentId, dispatch]);
 
   return (
     <Grow in>

@@ -41,29 +41,39 @@ const PostDetails = () => {
                     color="Secondary"
                     className={classes.statusInfo}
                   >
-                    {moment(post.createAt).fromNow()}
+                    {
+                      moment(post.createAt).fromNow()
+                    }
                   </Typography>
                   <Typography
                     variant="body2"
                     color="Secondary"
                     className={classes.statusInfo}
                   >
-                    {post.state}...
+                    Status: {
+                      post.state
+                    }
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
                   <Typography variant="h4" className={classes.title}>
-                    Title: {post.title}
+                    Title: {
+                      post.title
+                    }
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
                   <Typography variant="h6" className={classes.info}>
-                    {`Registered By: ${post.creator} (${post.department}, ${post.batch})`}
+                    {
+                      `Registered By: ${post.creator} (${post.department}, ${post.batch})`
+                    }
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
                   <Typography variant="h6" className={classes.info}>
-                    {`Email ID: ${post.email}`}
+                    {
+                      `Email ID: ${post.email}`
+                    }
                   </Typography>
                 </Grid>
                 {
@@ -82,7 +92,9 @@ const PostDetails = () => {
                     Description of Complain:
                   </Typography>
                   <Typography variant="h5" className={classes.info}>
-                    {post.content}
+                    {
+                      post.content
+                    }
                   </Typography>
                 </Grid>
                 {
@@ -112,7 +124,11 @@ const PostDetails = () => {
             <img
               alt="Full Screen"
               src={post.selectedFile}
-              style={{ maxWidth: "90%", maxHeight: "90%", borderRadius: "10px" }}
+              style={{
+                maxWidth: "90%",
+                maxHeight: "90%",
+                borderRadius: "10px"
+              }}
             />
           </Box>
         </Modal>

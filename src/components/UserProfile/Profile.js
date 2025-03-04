@@ -5,12 +5,12 @@ import Loader from '../Loader/Loader.js'
 import * as api from '../../api/index.js';
 
 import {
-  TextField,
-  Button,
   Grid,
   Grow,
-  Container,
-  Paper
+  Paper,
+  Button,
+  TextField,
+  Container
 } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 

@@ -4,25 +4,25 @@ export default makeStyles((theme) => ({
   mainContainer: {
     display: 'flex',
     alignItems: 'center',
-    marginTop: '10px',
+    marginTop: '10px'
   },
   title: {
     marginTop: '20px',
-    marginBottom: '20px',
     textAlign: 'center',
+    marginBottom: '20px'
   },
   info: {
-    textAlign: 'center',
-    margin: '5px'
+    margin: '5px',
+    textAlign: 'center'
   },
   statusInfo: {
     marginTop: 8,
     textAlign: 'right'
   },
   content: {
-    textAlign: 'center',
     padding: '25px',
-    marginTop: '15px'
+    marginTop: '15px',
+    textAlign: 'center'
   },
   mediaButton: {
     margin: 15,
@@ -34,7 +34,9 @@ export default makeStyles((theme) => ({
     right: 20,
     color: "white",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
-    "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.8)" },
+    "&:hover": {
+      backgroundColor: "rgba(0, 0, 0, 0.8)"
+    }
   },
   box: {
     display: "flex",

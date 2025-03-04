@@ -42,15 +42,12 @@ const Form = ({ setCurrentId }) => {
 
   const clear = () => {
     setCurrentId(0);
-    setPostData({
-      email: "",
+    setPostData((prev) => ({
+      ...prev,
       title: "",
-      batch: "",
-      creator: "",
       content: "",
-      department: "",
       selectedFile: "",
-    });
+    }));
     setIsPending(false);
   };
 
@@ -121,7 +118,6 @@ const Form = ({ setCurrentId }) => {
                     fullWidth
                     autoFocus
                   />
-
                   <TextField
                     name="message"
                     variant="outlined"
@@ -137,7 +133,7 @@ const Form = ({ setCurrentId }) => {
                   />
                   <div className={classes.fileInput}>
                     <FileBase
-                      type="image"
+                      type="file"
                       multiple={false}
                       onDone={({ base64 }) =>
                         setPostData({ ...postData, selectedFile: base64 })
@@ -145,22 +141,22 @@ const Form = ({ setCurrentId }) => {
                     />
                   </div>
                   <Button
-                    size="large"
+                    size="medium"
                     type="submit"
                     color="primary"
                     variant="contained"
                     disabled={isPending}
-                    className={classes.buttonSubmit}
+                    className={classes.button}
                     fullWidth
                   >
                     {isPending ? "Submitting.." : "Submit"}
                   </Button>
                   <Button
-                    size="large"
+                    size="medium"
                     color="secondary"
                     variant="contained"
                     onClick={clear}
-                    className={classes.buttonClear}
+                    className={classes.button}
                     fullWidth
                   >
                     Clear

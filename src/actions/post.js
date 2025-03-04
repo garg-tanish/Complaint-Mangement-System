@@ -6,7 +6,6 @@ import { FETCH_ALL, CREATE, UPDATE, DELETE } from '../redux/actions/actionTypes.
 export const getPosts = () => async (dispatch) => {
   try {
     const { data } = await api.fetchPosts();
-
     dispatch({ type: FETCH_ALL, payload: data });
   } catch (error) {
     toast.error(error.message)
@@ -20,7 +19,8 @@ export const createPost = (post) => async (dispatch) => {
     const emailData = {
       email: `${user?.result?.email}`,
       subject: 'New Complaint Registered',
-      content: `👤 User Name: ${user?.result?.name}
+      content: `
+      👤 User Name: ${user?.result?.name}
       📧 Email: ${post.email}
       🏢 Department: ${post.department}
       🎓 Batch: ${post.batch}

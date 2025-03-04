@@ -19,11 +19,9 @@ export default makeStyles((theme) => ({
     width: '100%',
     margin: '10px 0',
   },
-  buttonSubmit: {
-    marginBottom: 5,
-  },
-  buttonClear: {
+  button: {
     marginTop: 5,
+    marginBottom: 5
   },
   header: {
     padding: '20px',
