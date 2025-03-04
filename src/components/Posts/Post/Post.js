@@ -6,7 +6,6 @@ import * as api from '../../../api/index.js';
 import DeleteIcon from "@material-ui/icons/Delete";
 import FeedbackIcon from '@material-ui/icons/Feedback';
 import background from "../../../images/background.png";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import LowPriorityIcon from "@material-ui/icons/LowPriority";
 import PriorityHighIcon from "@material-ui/icons/PriorityHigh";
@@ -15,14 +14,14 @@ import SettingsEthernetIcon from "@material-ui/icons/SettingsEthernet";
 
 import {
   Card,
-  CardActions,
-  CardMedia,
-  Button,
-  Typography,
   Menu,
+  Button,
   MenuItem,
+  CardMedia,
+  Typography,
+  CardActions,
   ListItemIcon,
-  ListItemText,
+  ListItemText
 } from "@material-ui/core/";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -50,7 +49,7 @@ const Post = ({ post }) => {
   const handleStateClick = (event) => setStateMenu(event.currentTarget);
 
   const handleDeleteClick = () => {
-    const deleteConfirm = window.confirm(`Are you sure to this Complaint (${post.title})`)
+    const deleteConfirm = window.confirm(`Are you sure to delete Complaint (${post.title})`)
     if (deleteConfirm) {
       dispatch(deletePost(post._id))
       toast.success('Deleted Successfully')
@@ -60,7 +59,7 @@ const Post = ({ post }) => {
     else return
   }
 
-  const StyledMenu = withStyles()((props) => (
+  const StyledMenu = withStyles({})((props) => (
     <Menu
       elevation={0}
       getContentAnchorEl={null}
@@ -92,7 +91,10 @@ const Post = ({ post }) => {
       ...prevData,
       priority: noPriority
     }));
-    dispatch(updatePost(post._id, postData));
+    dispatch(updatePost(post._id, {
+      ...postData,
+      priority: noPriority
+    }));
     handleClose();
   };
 
@@ -101,7 +103,10 @@ const Post = ({ post }) => {
       ...prevData,
       state: status
     }));
-    dispatch(updatePost(post._id, postData));
+    dispatch(updatePost(post._id, {
+      ...postData,
+      state: status
+    }));
     informUser(status);
     handleStateClose();
   };
@@ -112,12 +117,19 @@ const Post = ({ post }) => {
       ...prevData,
       feedback: userFeedback,
     }));
-    dispatch(updatePost(post._id, postData));
+    dispatch(updatePost(post._id, {
+      ...postData,
+      feedback: userFeedback,
+    }));
     try {
       const emailData = {
         email: `${user?.result?.email}`,
-        subject: `Feedback for ${post.title}.`,
-        content: `${userFeedback}`,
+        subject: `Feedback on resolving ${post.title}.`,
+        content: `
+        ${post.creator} has submitted a feedback on successfully resolved complaint ${post.title}.
+        Here's the feedback:
+        ${userFeedback}
+        `,
         reciever: 'admin'
       }
       await api.SendEmail(emailData);
@@ -129,12 +141,13 @@ const Post = ({ post }) => {
 
   const informUser = async (status) => {
     if (status === 'Resolved') {
-      const adminfeedback = prompt('Enter Feedback....')
+      const adminfeedback = prompt('Enter Feedback...')
       try {
         const emailData = {
-          email: `${user?.result?.email}`,
-          subject: `Your Complaint ${post.title} is Resolved`,
-          content: `${adminfeedback}`,
+          email: `${post.email}`,
+          subject: `Complaint ${post.title} Resolved`,
+          content: `Your Complaint ${post.title} is Resolved. Admin responded on your complaint:
+          ${adminfeedback}`,
           reciever: 'user'
         }
         await api.SendEmail(emailData);
@@ -146,9 +159,10 @@ const Post = ({ post }) => {
       const adminfeedback = prompt('Enter the reason of dismissal....')
       try {
         const emailData = {
-          email: `${user?.result?.email}`,
-          subject: `Your Complaint ${post.title} is Dismissed`,
-          content: `${adminfeedback}`,
+          email: `${post.email}`,
+          subject: `Complaint ${post.title} Dismissed`,
+          content: `Your Complaint ${post.title} is Dismissed. The reason behind it:
+          ${adminfeedback}`,
           reciever: 'user'
         }
         await api.SendEmail(emailData);
@@ -169,13 +183,19 @@ const Post = ({ post }) => {
       </Link>
       <div className={classes.overlay}>
         <Typography variant="h6">
-          {post.creator}
+          {
+            post.creator
+          }
         </Typography>
         <Typography variant="body2">
-          {moment(post.createAt).fromNow()}
+          {
+            moment(post.createAt).fromNow()
+          }
         </Typography>
         <Typography variant="body1" color="textSecondary" component="h2">
-          {`#${post._id} `}
+          {
+            `#${post._id} `
+          }
         </Typography>
       </div>
       <div className={classes.overlay2}>
@@ -200,7 +220,8 @@ const Post = ({ post }) => {
       </Typography>
       <CardActions className={classes.cardActions}>
         {
-          user.result.isAdmin &&
+          (user.result.isAdmin &&
+            !(postData.state === 'Resolved' || postData.state === 'Dismissed')) &&
           <Button
             color="primary"
             variant="contained"
@@ -252,13 +273,14 @@ const Post = ({ post }) => {
           aria-haspopup="true"
           aria-controls="status-menu"
           onClick={handleStateClick}
-          disabled={!user.result.isAdmin}
+          disabled={!user.result.isAdmin || postData.state === 'Resolved' || postData.state === 'Dismissed'}
           fullWidth
         >
           {postData.state}
         </Button>
 
-        {!user.result.isAdmin &&
+        {
+          !user.result.isAdmin &&
           (
             postData.state === 'Resolved' && postData.feedback === '' &&
             <div style={{ cursor: 'pointer' }}>
@@ -279,12 +301,6 @@ const Post = ({ post }) => {
               <TrendingUpIcon fontSize="small" />
             </ListItemIcon>
             <ListItemText primary="Resolved" />
-          </StyledMenuItem>
-          <StyledMenuItem onClick={() => handleState("Pending")}>
-            <ListItemIcon>
-              <MoreHorizIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText primary="Pending" />
           </StyledMenuItem>
           <StyledMenuItem onClick={() => handleState("Dismissed")}>
             <ListItemIcon>
