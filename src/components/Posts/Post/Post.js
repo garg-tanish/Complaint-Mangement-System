@@ -113,30 +113,32 @@ const Post = ({ post }) => {
 
   const handleFeedbackClick = async () => {
     const userFeedback = prompt('Enter Feedback Below...');
-    setPostData((prevData) => ({
-      ...prevData,
-      feedback: userFeedback,
-    }));
-    dispatch(updatePost(post._id, {
-      ...postData,
-      feedback: userFeedback,
-    }));
-    try {
-      const emailData = {
-        email: `${user?.result?.email}`,
-        subject: `Feedback on resolving ${post.title}.`,
-        content: `
+    if (userFeedback) {
+      setPostData((prevData) => ({
+        ...prevData,
+        feedback: userFeedback,
+      }));
+      dispatch(updatePost(post._id, {
+        ...postData,
+        feedback: userFeedback,
+      }));
+      try {
+        const emailData = {
+          email: `${user?.result?.email}`,
+          subject: `Feedback on resolving ${post.title}.`,
+          content: `
         ${post.creator} has submitted a feedback on successfully resolved complaint ${post.title}.
         Here's the feedback:
         ${userFeedback}
         `,
-        reciever: 'admin'
+          reciever: 'admin'
+        }
+        await api.SendEmail(emailData);
+      } catch (error) {
+        toast.error(error)
       }
-      await api.SendEmail(emailData);
-    } catch (error) {
-      toast.error(error)
     }
-    handleClose();
+    else toast.error('Feedback is mandatory.')
   };
 
   const informUser = async (status) => {
@@ -146,8 +148,9 @@ const Post = ({ post }) => {
         const emailData = {
           email: `${post.email}`,
           subject: `Complaint ${post.title} Resolved`,
-          content: `Your Complaint ${post.title} is Resolved. Admin responded on your complaint:
-          ${adminfeedback}`,
+          content: `Your Complaint ${post.title} is Resolved. 
+          ${adminfeedback ? `Admin responded on your complaint:
+          ${adminfeedback}` : ''}`,
           reciever: 'user'
         }
         await api.SendEmail(emailData);
@@ -161,8 +164,9 @@ const Post = ({ post }) => {
         const emailData = {
           email: `${post.email}`,
           subject: `Complaint ${post.title} Dismissed`,
-          content: `Your Complaint ${post.title} is Dismissed. The reason behind it:
-          ${adminfeedback}`,
+          content: `Your Complaint ${post.title} is Dismissed. 
+          ${adminfeedback ? `The reason behind it:
+          ${adminfeedback}` : ''}`,
           reciever: 'user'
         }
         await api.SendEmail(emailData);
