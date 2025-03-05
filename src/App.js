@@ -9,8 +9,8 @@ import PostDetails from "./components/Posts/PostDetails/PostDetails.js";
 
 import {
   BrowserRouter as Router,
-  Switch,
-  Route
+  Route,
+  Switch
 } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { Toaster } from 'react-hot-toast';
@@ -26,7 +26,7 @@ const App = () => {
     if (user) {
       dispatch(getPosts());
     }
-  }, [currentId, dispatch]);
+  }, [currentId, dispatch, user]);
 
   return (
     <>
