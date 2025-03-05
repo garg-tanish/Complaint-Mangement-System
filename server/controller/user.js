@@ -13,7 +13,7 @@ export const signin = async (req, res) => {
   const { email, otp } = req.body;
 
   try {
-    const User = await otpModel.find({ email, otp, is_used: 'false' });
+    const User = await otpModel.findOne({ email, otp, is_used: 'false' });
 
     if (User) {
       const oldUser = await UserModal.findOne({ email });
