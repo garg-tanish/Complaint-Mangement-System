@@ -6,6 +6,7 @@ import Posts from "./components/Posts/Posts.js";
 import Navbar from "./components/Navbar/Navbar.js";
 import Profile from './components/UserProfile/Profile.js'
 import PostDetails from "./components/Posts/PostDetails/PostDetails.js";
+import ForgotPassword from './components/ForgotPassword/ForgotPassword.js'
 
 import {
   BrowserRouter as Router,
@@ -56,6 +57,9 @@ const App = () => {
             </>
           }
 
+          <Route exact path="/forgot-password">
+            <ForgotPassword />
+          </Route>
           <Route path="*">
             <Auth />
           </Route>

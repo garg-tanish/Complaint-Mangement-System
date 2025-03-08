@@ -16,7 +16,7 @@ import {
   Typography
 } from "@material-ui/core";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { signin, signup } from "../../actions/auth";
 
 let initialState = {
@@ -261,16 +261,22 @@ const SignUp = () => {
                     {
                       !otpSent &&
                       <Grid container justifyContent="center">
-                        <Grid item>
-                          <Button
-                            onClick={switchMode}
-                            className={classes.switchButton}
-                          >
-                            {
-                              isSignup ? "Already have an account? Sign in" : "Don't have an account? Sign Up"
-                            }
-                          </Button>
-                        </Grid>
+                        <Button
+                          onClick={switchMode}
+                          className={classes.switchButton}
+                        >
+                          {
+                            isSignup ? "Already have an account? Sign in" : "Don't have an account? Sign Up"
+                          }
+                        </Button>
+                        {
+                          !isSignup &&
+                          <Link to="/forgot-password">
+                            <Button className={classes.switchButton}>
+                              Forgot Password?
+                            </Button>
+                          </Link>
+                        }
                       </Grid>
                     }
                   </form>
