@@ -13,8 +13,7 @@ export default makeStyles((theme) => ({
     marginLeft: "15px"
   },
   heading: {
-    flexGrow: 1,
-    textAlign: 'center'
+    flexGrow: 1
   },
   dashboard: {
     display: "flex",
@@ -45,8 +44,8 @@ export default makeStyles((theme) => ({
   },
   moveToTop: {
     position: "fixed",
-    right: "20px",
     zIndex: 1000,
+    right: "20px",
     bottom: "20px",
     color: "white",
     backgroundColor: "#f50057",
