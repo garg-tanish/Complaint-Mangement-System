@@ -13,8 +13,8 @@ export default makeStyles({
     flexDirection: 'column',
     justifyContent: 'space-between',
     top: '30px',
-    height: '100%',
     borderRadius: '15px',
+    wordBreak: 'break-all'
   },
   overlay: {
     position: 'absolute',

@@ -1,10 +1,11 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export default makeStyles((theme) => ({
+export default makeStyles(() => ({
   mainContainer: {
     display: 'flex',
     alignItems: 'center',
-    marginTop: '10px'
+    marginTop: '10px',
+    border: '2px solid blue'
   },
   title: {
     marginTop: '20px',
