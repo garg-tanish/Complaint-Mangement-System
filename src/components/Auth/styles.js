@@ -22,6 +22,10 @@ export default makeStyles((theme) => ({
     width: '100%',
     marginTop: theme.spacing(3),
   },
+  fileInput: {
+    width: '100%',
+    margin: '10px 0',
+  },
   submit: {
     fontSize: '16px',
     textTransform: 'none',

@@ -101,14 +101,14 @@ export const verifySignin = async (req, res) => {
 };
 
 export const signup = async (req, res) => {
-  const { email, password, firstName, lastName, isAdmin, otp, department, batch } = req.body;
+  const { email, password, firstName, lastName, isAdmin, otp, department, batch, profile_pic } = req.body;
 
   try {
     const User = await otpModel.find({ email, otp, is_used: 'false' });
 
     if (User) {
       const hashedPassword = await bcrypt.hash(password, 12);
-      const result = await UserModal.create({ email, password: hashedPassword, isAdmin, department, batch, name: `${firstName} ${lastName}` });
+      const result = await UserModal.create({ email, password: hashedPassword, isAdmin, department, batch, profile_pic, name: `${firstName} ${lastName}` });
       const token = jwt.sign({ email: result.email, id: result._id, department: result.department }, secret, { expiresIn: "1h" });
       await otpModel.updateOne({ email, otp }, { is_used: 'true' })
 
@@ -160,6 +160,57 @@ export const verifySignup = async (req, res) => {
       to: `${email}`,
       subject: "Otp for Complaint System",
       text: `Your otp is ${otp}. Kindly fill this to continue further.`
+    });
+
+    const payload = { email, otp, is_used: "false" }
+    const otpCol = new otpModel(payload)
+
+    try {
+      await otpCol.save()
+    } catch (error) {
+      res.status(409).json({ message: error.message });
+    }
+
+    return res.status(201).json({
+      error: false,
+      success: true,
+      message: `Otp Sent to ${email}`
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: `Something went wrong ${error} `
+    });
+  }
+};
+
+export const verifyEmail = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const oldUser = await UserModal.findOne({ email });
+
+    if (!oldUser) return res.status(400).json({
+      error: true,
+      success: false,
+      message: "User doesn't exists"
+    });
+    const otp = crypto.randomInt(1000, 9999);
+
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.GMAIL_EMAIL,
+        pass: process.env.GMAIL_PASSWORD,
+      },
+    });
+
+    await transporter.sendMail({
+      from: process.env.GMAIL_EMAIL,
+      to: `${email}`,
+      subject: "Otp for Complaint System",
+      text: `Your otp is to change password is ${otp}. Kindly fill this to continue further.`
     });
 
     const payload = { email, otp, is_used: "false" }

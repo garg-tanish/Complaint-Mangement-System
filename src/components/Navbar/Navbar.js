@@ -31,6 +31,7 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [showScroll, setShowScroll] = React.useState(false);
   const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('profile')));
+  const profile_url = user?.result?.profile_pic
 
   const confirmLogout = () => {
     const confirmation = window.confirm('Are you sure to logout?')
@@ -75,7 +76,8 @@ const Navbar = () => {
             <Toolbar>
               <Link to="/user-profile" style={{ fontSize: 20, textDecoration: 'none' }}>
                 <Avatar className={classes.avatar}>
-                  {
+                  {profile_url ?
+                    <img className={`${classes.image}`} src={profile_url} alt='dp' /> :
                     user?.result.name?.split(" ").map(word => word.charAt(0)).join("").toUpperCase() || "U"
                   }
                 </Avatar>

@@ -8,6 +8,7 @@ import {
   Grid,
   Grow,
   Paper,
+  Avatar,
   Button,
   TextField,
   Container
@@ -20,6 +21,7 @@ const Profile = () => {
   const user = JSON.parse(localStorage.getItem("profile"));
 
   const [loading, setLoading] = React.useState(false);
+  const profile_url = user?.result?.profile_pic
   const [changePasswordClick, setChangePasswordClick] = React.useState(false)
   const [form, setForm] = React.useState({
     email: user?.result?.email,
@@ -68,6 +70,12 @@ const Profile = () => {
             <Grid item xs={12} sm={6}>
               <Paper className={classes.paper}>
                 <form className={`${classes.root} ${classes.form}`}>
+                  <Avatar className={classes.avatar}>
+                    {profile_url ?
+                      <img className={`${classes.image}`} src={profile_url} alt='dp' /> :
+                      user?.result.name?.split(" ").map(word => word.charAt(0)).join("").toUpperCase() || "U"
+                    }
+                  </Avatar>
                   <Grid container spacing={2}>
                     <TextField
                       id="name"

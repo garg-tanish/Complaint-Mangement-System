@@ -3,6 +3,7 @@ import Input from "./Input";
 import useStyles from "./styles";
 import toast from 'react-hot-toast';
 import Loader from "../Loader/Loader.js";
+import FileBase from "react-file-base64";
 import * as api from '../../api/index.js';
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 
@@ -27,6 +28,7 @@ let initialState = {
   lastName: '',
   firstName: '',
   department: '',
+  profile_pic: '',
   isAdmin: false
 };
 
@@ -217,6 +219,15 @@ const SignUp = () => {
                               disabled={otpSent}
                               handleChange={handleChange}
                             />
+                            <div className={classes.fileInput}>
+                              <FileBase
+                                type="file"
+                                multiple={false}
+                                onDone={({ base64 }) =>
+                                  setForm({ ...form, profile_pic: base64 })
+                                }
+                              />
+                            </div>
                           </>
                         )}
 

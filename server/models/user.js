@@ -25,6 +25,9 @@ const userSchema = mongoose.Schema({
     type: Boolean,
     default: false
   },
+  profile_pic: {
+    type: String
+  },
   id: {
     type: String
   },

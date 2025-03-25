@@ -50,4 +50,9 @@ export default makeStyles((theme) => ({
     color: "white",
     backgroundColor: "#f50057",
   },
+  image: {
+    width: '40px',
+    height: '40px',
+    aspectRatio: 2 / 3
+  }
 }));
