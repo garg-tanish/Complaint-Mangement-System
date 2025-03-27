@@ -54,6 +54,20 @@ const SignUp = () => {
     setShowPassword(false);
   };
 
+  const handleFileUpload = ({ base64, file }) => {
+    if (!file.type.startsWith("image/")) {
+      toast.error("Your selected file is not an image file so it will be not be shown");
+      setForm({ ...form, profile_pic: '' });
+    }
+    else {
+      setLoading(true);
+      setTimeout(() => {
+        setForm({ ...form, profile_pic: base64 });
+        setLoading(false);
+      }, 1500);
+    }
+  };
+
   const validateInput = (e) => {
     e.preventDefault()
     setLoading(true)
@@ -109,8 +123,6 @@ const SignUp = () => {
       } else {
         setLoading(false)
         toast.error(response.data.message)
-        history.push('/');
-        window.location.reload();
       }
     } catch (error) {
       setLoading(false)
@@ -132,8 +144,6 @@ const SignUp = () => {
       } else {
         setLoading(false)
         toast.error(response.data.message)
-        history.push('/');
-        window.location.reload();
       }
     } catch (error) {
       setLoading(false)
@@ -161,7 +171,11 @@ const SignUp = () => {
               <Container component="main" maxWidth="xs">
                 <Paper className={classes.paper} elevation={3}>
                   <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon />
+                    {
+                      form.profile_pic ?
+                        <img src={form.profile_pic} alt="dp" className={classes.profile_pic} /> :
+                        <LockOutlinedIcon />
+                    }
                   </Avatar>
                   <Typography component="h1" variant="h5">
                     {
@@ -223,9 +237,7 @@ const SignUp = () => {
                               <FileBase
                                 type="file"
                                 multiple={false}
-                                onDone={({ base64 }) =>
-                                  setForm({ ...form, profile_pic: base64 })
-                                }
+                                onDone={handleFileUpload}
                               />
                             </div>
                           </>

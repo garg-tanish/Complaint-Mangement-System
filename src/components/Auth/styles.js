@@ -16,7 +16,15 @@ export default makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
+    width: '50px',
+    height: '50px',
     backgroundColor: theme.palette.secondary.main,
+  },
+  profile_pic: {
+    width: '50px',
+    height: '50px',
+    aspectRatio: 2 / 3,
+    objectFit: 'cover'
   },
   form: {
     width: '100%',
