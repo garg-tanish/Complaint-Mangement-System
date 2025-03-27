@@ -53,6 +53,7 @@ export default makeStyles((theme) => ({
   image: {
     width: '40px',
     height: '40px',
-    aspectRatio: 2 / 3
+    aspectRatio: 2 / 3,
+    objectFit: 'cover'
   }
 }));

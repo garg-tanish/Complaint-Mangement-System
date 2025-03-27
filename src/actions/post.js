@@ -19,8 +19,7 @@ export const createPost = (post) => async (dispatch) => {
     const emailData = {
       email: `${user?.result?.email}`,
       subject: 'New Complaint Registered',
-      content: `
-      👤 User Name: ${user?.result?.name}
+      content: `👤 User Name: ${user?.result?.name}
       📧 Email: ${post.email}
       🏢 Department: ${post.department}
       🎓 Batch: ${post.batch}
@@ -39,7 +38,7 @@ export const createPost = (post) => async (dispatch) => {
       }
     }
     else {
-      toast.error('Unable to add Complaint.')
+      toast.error('Unable to add Complaint. Please Try again later.')
     }
   } catch (error) {
     toast.error(error.message)

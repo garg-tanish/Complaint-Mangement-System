@@ -10,6 +10,7 @@ export const getPosts = async (req, res) => {
     res.status(200).json(postMessages);
   } catch (error) {
     res.status(404).json({
+      error: true,
       message: error.message
     });
   }
@@ -22,6 +23,7 @@ export const getPost = async (req, res) => {
     res.status(200).json(post);
   } catch (error) {
     res.status(404).json({
+      error: true,
       message: error.message
     });
   }
@@ -33,13 +35,13 @@ export const createPost = async (req, res) => {
   try {
     await newPostMessage.save();
     res.status(201).json({
-      error: false,
       success: true,
       newPostMessage,
       message: 'Post Created Successfully'
     });
   } catch (error) {
-    res.status(409).json({
+    res.status(500).json({
+      error: true,
       message: error.message
     });
   }

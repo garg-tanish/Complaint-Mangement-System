@@ -24,14 +24,14 @@ export const sendEmail = async (request, response) => {
       text: `${content}`
     });
 
-    return response.status(201).json({
-      error: false,
+    return response.status(200).json({
       success: true,
       message: `Email sent successfully.`
     })
 
   } catch (error) {
     return response.status(500).json({
+      error: true,
       message: error.message || error
     })
   }

@@ -72,13 +72,13 @@ const ForgotPassword = () => {
   const changePassword = async (e) => {
     e.preventDefault()
     setLoading(true)
-    if (!form.password) {
-      setLoading(false)
-      toast.error('Password cannot be Empty.')
-    }
-    else if (!form.otp) {
+    if (!form.otp) {
       setLoading(false)
       toast.error('Otp cannot be empty.')
+    }
+    else if (!form.password) {
+      setLoading(false)
+      toast.error('Password cannot be Empty.')
     }
     else {
       try {
@@ -106,7 +106,7 @@ const ForgotPassword = () => {
     <div>
       <Grow in>
         <Container>
-          <Grid container justifyContent="center" alignItems="center">
+          <Grid justifyContent="center" alignItems="center">
             <Grid>
               <Container component="main" maxWidth="xs">
                 <Paper className={classes.paper} elevation={3}>
@@ -170,11 +170,17 @@ const ForgotPassword = () => {
                     }
                     {
                       !otpSent &&
-                      <Link to="/">
-                        <Button className={classes.switchButton}>
-                          Change Mood? Login
-                        </Button>
-                      </Link>
+                      <div style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        textDecoration: 'none'
+                      }}>
+                        <Link to="/">
+                          <Button className={classes.switchButton}>
+                            Go back to login? Login
+                          </Button>
+                        </Link>
+                      </div>
                     }
                   </form>
                 </Paper>

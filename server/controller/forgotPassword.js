@@ -10,7 +10,7 @@ export const ForgotPassword = async (req, res) => {
   const { email, password, otp } = req.body;
 
   try {
-    const isOtp = await otpModel.find({ email, otp, is_used: 'false' });
+    const isOtp = await otpModel.findOne({ email, otp, is_used: 'false' });
 
     if (isOtp) {
       const hashedPassword = await bcrypt.hash(password, 12);
@@ -31,22 +31,21 @@ export const ForgotPassword = async (req, res) => {
         from: process.env.GMAIL_EMAIL,
         to: `${email}`,
         subject: "Password Changed",
-        text: `Your password is change on compliant system.`
+        text: `Your password is change for compliant system.`
       });
 
       return res.status(200).json({
-        error: false,
         success: true,
         message: "Password changed successfully"
       });
     }
     res.status(200).json({
-      error: true,
       success: false,
-      message: "Password not changed."
+      message: "Invalid Otp."
     });
   } catch (error) {
     res.status(500).json({
+      error: true,
       message: `Something went wrong ${error} `
     });
   }
