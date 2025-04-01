@@ -71,7 +71,8 @@ const Profile = () => {
               <Paper className={classes.paper}>
                 <form className={`${classes.root} ${classes.form}`}>
                   <Avatar className={classes.avatar}>
-                    {profile_url ?
+                    {
+                    profile_url ?
                       <img className={`${classes.image}`} src={profile_url} alt='dp' /> :
                       user?.result.name?.split(" ").map(word => word.charAt(0)).join("").toUpperCase() || "U"
                     }
