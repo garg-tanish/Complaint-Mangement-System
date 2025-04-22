@@ -233,6 +233,8 @@ const SignUp = () => {
                               disabled={otpSent}
                               handleChange={handleChange}
                             />
+                            {
+                            !otpSent &&
                             <div className={classes.fileInput}>
                               <FileBase
                                 type="file"
@@ -240,6 +242,7 @@ const SignUp = () => {
                                 onDone={handleFileUpload}
                               />
                             </div>
+                            }
                           </>
                         )}
 
