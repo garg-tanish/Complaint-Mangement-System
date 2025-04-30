@@ -54,6 +54,34 @@ export const updatePost = (id, post) => async (dispatch) => {
   }
 };
 
+export const updateConvo = (id, post) => async (dispatch) => {
+  debugger
+  try {
+    const response = await api.updateConvo(id, post);
+    const user = JSON.parse(localStorage.getItem("profile"));
+    const emailData = {
+      email: `${user?.result?.email}`,
+      subject: 'New Complaint Registered',
+      content: `A new Message from ${post.title}`,
+      reciever: `${user?.result?.email === post.sender ? 'admin' : 'user'}`
+    }
+    if (response.data.success) {
+      toast.success('Message Sent.')
+      dispatch({ type: UPDATE, payload: response.data.updatedConvo });
+      try {
+        await api.SendEmail(emailData)
+      } catch (error) {
+        toast.error(error.message)
+      }
+    }
+    else {
+      toast.error('Unable to send message. Please Try again later.')
+    }
+  } catch (error) {
+    toast.error(error.message)
+  }
+};
+
 export const deletePost = (id) => async (dispatch) => {
   try {
     await api.deletePost(id);

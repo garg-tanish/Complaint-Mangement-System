@@ -9,7 +9,7 @@ const postSchema = mongoose.Schema({
     department: String,
     creatorToken: String,
     selectedFile: String,
-    feedback: {
+    complaint_response: {
         type: String,
         default: ''
     },
@@ -17,6 +17,22 @@ const postSchema = mongoose.Schema({
         type: Number,
         default: 0
     },
+    conversation: [
+        {
+          sender: { 
+            type: String, 
+            required: true 
+        },
+          message: { 
+            type: String, 
+            required: true 
+        },
+          timestamp: { 
+            type: Date, 
+            default: Date.now 
+        }
+        }
+      ],
     state: {
         type: String,
         default: 'Pending'

@@ -20,4 +20,5 @@ export const ForgotPassword = (formData) => API.post('/forgot-password', formDat
 export const verifySignin = (formData) => API.post('/user/verify-signin', formData);
 export const verifySignup = (formData) => API.post('/user/verify-signup', formData);
 export const updatePost = (id, updatedPost) => API.patch(`/posts/${id}`, updatedPost);
+export const updateConvo = (id, updatedConvo) => API.patch(`/posts/update-convo/${id}`, updatedConvo);
 export const changePassword = (formData) => API.post('user/change-password', formData);

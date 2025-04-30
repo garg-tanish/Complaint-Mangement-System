@@ -49,5 +49,61 @@ export default makeStyles(() => ({
     width: "100vw",
     height: "100vh",
     backgroundColor: "rgba(0, 0, 0, 0.8)",
-  }
+  },
+  chat_box:{
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center", 
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100vw",
+    height: "100vh",
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
+  },
+   card: {
+    backgroundColor:'white',
+      display: 'flex',
+      flexDirection:'column',
+      placeItems:'center',
+      height: 'auto%',
+      maxHeight:'80%',
+      width:'50%',
+      borderRadius: '4px',
+      position: 'relative'
+    },
+    chatMessages: {
+      maxHeight: '400px',
+      overflowY: 'auto',
+      padding: '1rem',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '0.5rem',
+      marginBottom: '1rem',
+      border: '1px solid #ccc',
+      borderRadius: '8px',
+    },
+    
+    adminMessage: {
+      alignSelf: 'flex-end',
+      backgroundColor: '#e1f5fe',
+      padding: '0.5rem 1rem',
+      borderRadius: '10px',
+      maxWidth: '70%',
+      wordWrap: 'break-word',
+    },
+    
+    userMessage: {
+      alignSelf: 'flex-start',
+      backgroundColor: '#fce4ec',
+      padding: '0.5rem 1rem',
+      borderRadius: '10px',
+      maxWidth: '70%',
+      wordWrap: 'break-word',
+    },
+    
+    messageText: {
+      wordBreak: 'break-word',
+    },
+    
 }));

@@ -4,7 +4,6 @@ import useStyles from "./styles";
 import toast from "react-hot-toast";
 import * as api from '../../../api/index.js';
 import DeleteIcon from "@material-ui/icons/Delete";
-import FeedbackIcon from '@material-ui/icons/Feedback';
 import background from "../../../images/background.png";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import LowPriorityIcon from "@material-ui/icons/LowPriority";
@@ -23,6 +22,7 @@ import {
   ListItemIcon,
   ListItemText
 } from "@material-ui/core/";
+
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -40,7 +40,7 @@ const Post = ({ post }) => {
   const [postData, setPostData] = React.useState({
     state: post.state,
     priority: post.priority,
-    feedback: post.feedback
+    feedback: post.complaint_response
   });
 
   const handleClose = () => setAnchorEl(null);
@@ -98,83 +98,53 @@ const Post = ({ post }) => {
     handleClose();
   };
 
-  const handleState = (status) => {
-    setPostData((prevData) => ({
-      ...prevData,
-      state: status
-    }));
-    dispatch(updatePost(post._id, {
-      ...postData,
-      state: status
-    }));
-    informUser(status);
-    handleStateClose();
-  };
-
-  const handleFeedbackClick = async () => {
-    const userFeedback = prompt('Enter Feedback Below...');
-    if (userFeedback) {
+  const handleState = async (status) => {
+    const adminFeedback = prompt('Enter Feedback Below...');
+    if (adminFeedback) {
       setPostData((prevData) => ({
         ...prevData,
-        feedback: userFeedback,
+        state: status,
+        feedback: adminFeedback
       }));
       dispatch(updatePost(post._id, {
         ...postData,
-        feedback: userFeedback,
+        state: status,
+        feedback: adminFeedback,
       }));
-      try {
-        const emailData = {
-          email: `${user?.result?.email}`,
-          subject: `Feedback on resolving ${post.title}.`,
-          content: `
-        ${post.creator} has submitted a feedback on successfully resolved complaint ${post.title}.
-        Here's the feedback:
-        ${userFeedback}
-        `,
-          reciever: 'admin'
+      handleStateClose();
+      if (status === 'Resolved') {
+        try {
+          const emailData = {
+            email: `${post.email}`,
+            subject: `Complaint ${post.title} Resolved`,
+            content: `Your Complaint ${post.title} is Resolved. 
+            ${postData.feedback ? `Admin responded on your complaint:
+            ${postData.feedback}` : ''}`,
+            reciever: 'user'
+          }
+          await api.SendEmail(emailData);
+        } catch (error) {
+          toast.error(error)
         }
-        await api.SendEmail(emailData);
-      } catch (error) {
-        toast.error(error)
+      }
+      else if (status === 'Dismissed') {
+        try {
+          const emailData = {
+            email: `${post.email}`,
+            subject: `Complaint ${post.title} Dismissed`,
+            content: `Your Complaint ${post.title} is Dismissed. 
+            ${postData.feedback ? `The reason behind it:
+            ${postData.feedback}` : ''}`,
+            reciever: 'user'
+          }
+          await api.SendEmail(emailData);
+        } catch (error) {
+          toast.error(error)
+        }
       }
     }
     else toast.error('Feedback is mandatory.')
   };
-
-  const informUser = async (status) => {
-    if (status === 'Resolved') {
-      const adminfeedback = prompt('Enter Feedback...')
-      try {
-        const emailData = {
-          email: `${post.email}`,
-          subject: `Complaint ${post.title} Resolved`,
-          content: `Your Complaint ${post.title} is Resolved. 
-          ${adminfeedback ? `Admin responded on your complaint:
-          ${adminfeedback}` : ''}`,
-          reciever: 'user'
-        }
-        await api.SendEmail(emailData);
-      } catch (error) {
-        toast.error(error)
-      }
-    }
-    else if (status === 'Dismissed') {
-      const adminfeedback = prompt('Enter the reason of dismissal....')
-      try {
-        const emailData = {
-          email: `${post.email}`,
-          subject: `Complaint ${post.title} Dismissed`,
-          content: `Your Complaint ${post.title} is Dismissed. 
-          ${adminfeedback ? `The reason behind it:
-          ${adminfeedback}` : ''}`,
-          reciever: 'user'
-        }
-        await api.SendEmail(emailData);
-      } catch (error) {
-        toast.error(error)
-      }
-    }
-  }
 
   return (
     <Card className={classes.card}>
@@ -282,16 +252,6 @@ const Post = ({ post }) => {
         >
           {postData.state}
         </Button>
-
-        {
-          !user.result.isAdmin &&
-          (
-            postData.state === 'Resolved' && postData.feedback === '' &&
-            <div style={{ cursor: 'pointer' }}>
-              <FeedbackIcon fontSize="large" onClick={handleFeedbackClick} />
-            </div>
-          )
-        }
 
         <StyledMenu
           id="status-menu"

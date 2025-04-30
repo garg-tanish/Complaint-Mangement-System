@@ -55,10 +55,35 @@ export const updatePost = async (req, res) => {
 
   const updatedPost = await PostMessage.findByIdAndUpdate(
     id,
-    { state, priority, feedback, creatorToken: req.userId },
+    { state, priority, complaint_response: feedback, creatorToken: req.userId },
     { new: true }
   );
   res.json(updatedPost);
+};
+
+export const updateConvo = async (req, res) => {
+  const { id } = req.params;
+  const { sender, message } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+
+  const updatedConvo = await PostMessage.findByIdAndUpdate(
+    id,
+    {
+      $push: {
+        conversation: {
+          sender: sender,
+          message: message,
+          timestamp: new Date()
+        }
+      }
+    },
+    { new: true }
+  );
+  res.status(200).json({
+    success: true,
+    updatedConvo,
+  });
 };
 
 export const deletePost = async (req, res) => {
