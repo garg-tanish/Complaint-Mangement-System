@@ -68,12 +68,13 @@ export default makeStyles(() => ({
       placeItems:'center',
       height: 'auto%',
       maxHeight:'80%',
-      width:'50%',
+      width: '80dvw',
       borderRadius: '4px',
       position: 'relative'
     },
     chatMessages: {
       maxHeight: '400px',
+      width: '70dvw',
       overflowY: 'auto',
       padding: '1rem',
       display: 'flex',

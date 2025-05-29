@@ -204,9 +204,9 @@ const PostDetails = () => {
                   display: "flex",
                   justifyContent: 'space-between',
                   alignItems: 'center',
+                  width: '74dvw',
                   gap: 5,
-                  borderTop: '1px solid #ccc',
-                  paddingTop: '0.5rem'
+                  padding: '10px'
                 }}
                 >
                   <TextField
